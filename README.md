@@ -12,8 +12,6 @@
     * [Basic example](./examples/basic)
     * [Complete example](./examples/complete)
 * [Contributing](#contributing)
-
-## terraform-ibm-appid
 <!-- END OVERVIEW HOOK -->
 
 ### Usage
