@@ -1,4 +1,10 @@
 # Complete example
 
-<!-- There is a pre-commit hook that will take the title of each example add include it in the repos main README.md  -->
-<!-- Add text below should describe exactly what resources are provisioned / configured by the example  -->
+An end-to-end example that will provision the following:
+- A new resource group if one is not passed in.
+- An IAM authorization policy for AppID instance to read from KMS instance.
+- An AppID instance and a resource key.
+- A Cloud Directory authentication with Multi-factor authentication (MFA) enabled.
+- Adds a user to the Cloud Directory, and generates random password for the user.
+- Creates an application, scopes and roles.
+- Assign roles to the users.

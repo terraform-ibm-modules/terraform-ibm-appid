@@ -2,7 +2,7 @@
 # Outputs
 ########################################################################################################################
 
-#output "myoutput" {
-#  description = "Description of my output"
-#  value       = "value"
-#}
+output "tenant_id" {
+  description = "AppID instance guid, also called as tenant_id."
+  value       = ibm_resource_instance.appid.guid
+}

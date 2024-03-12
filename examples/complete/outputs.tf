@@ -2,22 +2,12 @@
 # Outputs
 ##############################################################################
 
-output "region" {
-  description = "The region all resources were provisioned in"
-  value       = var.region
+output "tenant_id" {
+  description = "Tenant ID of the AppID resource"
+  value       = module.appid.tenant_id
 }
 
-output "prefix" {
-  description = "The prefix used to name all provisioned resources"
-  value       = var.prefix
-}
-
-output "resource_group_name" {
-  description = "The name of the resource group used"
-  value       = var.resource_group
-}
-
-output "resource_tags" {
-  description = "List of resource tags"
-  value       = var.resource_tags
+output "client_id" {
+  description = "Client ID of the application."
+  value       = ibm_appid_application.app.client_id
 }
