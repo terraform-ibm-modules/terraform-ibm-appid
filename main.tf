@@ -1,6 +1,6 @@
 locals {
   # tflint-ignore: terraform_unused_declarations
-  validate_kms_vars = !var.skip_iam_authorization_policy && var.kms_key_crn == null && var.existing_kms_instance_guid == null ? tobool("When setting var.skip_iam_authorization_policy to true, a value must be passed for var.kms_key_crn and var.existing_kms_instance_guid") : true
+  validate_kms_vars = !var.skip_iam_authorization_policy && (var.kms_key_crn == null && var.existing_kms_instance_guid == null) ? tobool("When setting var.skip_iam_authorization_policy to true, a value must be passed for var.kms_key_crn and var.existing_kms_instance_guid") : true
 
   # Determine what KMS service is being used for database encryption
   kms_service = var.kms_key_crn != null ? (
