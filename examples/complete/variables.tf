@@ -37,11 +37,9 @@ variable "user_count" {
 variable "kms_key_crn" {
   type        = string
   description = "The root key CRN of a Key Management Services like Key Protect or Hyper Protect Crypto Service (HPCS) that you want to use for disk encryption. Only used if `kms_encryption_enabled` is set to true."
-  default     = null
 }
 
 variable "existing_kms_instance_guid" {
   description = "The GUID of the Hyper Protect or Key Protect instance in which the key specified in `kms_key_crn` is coming from. Only required if `skip_iam_authorization_policy` is 'false'."
   type        = string
-  default     = null
 }
