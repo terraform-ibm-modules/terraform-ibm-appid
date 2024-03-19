@@ -24,6 +24,7 @@ module "appid" {
   existing_kms_instance_guid    = var.existing_kms_instance_guid
   skip_iam_authorization_policy = false
   kms_encryption_enabled        = true
+  resource_keys                 = [{ name = "${var.prefix}-sc" }]
 }
 
 ########################################################################################################################

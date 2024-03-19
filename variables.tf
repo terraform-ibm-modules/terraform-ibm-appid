@@ -30,23 +30,17 @@ variable "resource_group_id" {
 variable "resource_keys" {
   description = "The definition of any resource keys to be generated"
   type = list(object({
-    name                      = string
-    generate_hmac_credentials = optional(bool, false)
-    role                      = optional(string, "Reader")
-    service_id_crn            = string
+    name           = string
+    role           = optional(string, "Viewer")
+    service_id_crn = optional(string)
   }))
   default = []
   validation {
     # From: https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key
-    # Writer, Reader, Manager, Administrator, Operator, Viewer, and Editor
-    # Service roles (for Cloud Object Storage) https://cloud.ibm.com/iam/roles
-    # Reader, Writer, Manager, Content Reader, Object Reader, Object Writer
-    # Platform roles (for Cloud Object Storage)
-    # Key Manager
     condition = alltrue([
-      for key in var.resource_keys : contains(["Writer", "Reader", "Manager", "Administrator", "Operator", "Viewer", "Editor", "Content Reader", "Object Reader", "Object Writer", "Key Manager"], key.role)
+      for key in var.resource_keys : contains(["Service Configuration Reader", "Viewer", "Administrator", "Operator", "Editor", "Writer", "Manager", "Key Manager"], key.role)
     ])
-    error_message = "resource_keys role must be one of 'Writer', 'Reader', 'Manager', 'Administrator', 'Operator', 'Viewer', 'Editor', 'Content Reader', 'Onject Reader', 'Object Writer', 'Key Manager', reference https://cloud.ibm.com/iam/roles and `Cloud Object Storage`"
+    error_message = "resource_keys role must be one of 'Service Configuration Reader', 'Viewer', 'Administrator', 'Operator', 'Editor', 'Writer', 'Manager', 'Key Manager', reference https://cloud.ibm.com/iam/roles and `AppID`"
   }
 }
 
@@ -64,7 +58,7 @@ variable "skip_iam_authorization_policy" {
 
 variable "kms_encryption_enabled" {
   type        = bool
-  description = "Set this to true to control the encryption keys used to encrypt the data that you store for AppID. If set to false, the data is encrypted by using randomly generated keys. For more info on Managing Encryption, see https://cloud.ibm.com/docs/event-notifications?topic=event-notifications-en-managing-encryption"
+  description = "Set this to true to control the encryption keys used to encrypt the data that you store for AppID. If set to false, the data is encrypted by using randomly generated keys. For more info on securing data in AppID, see https://cloud.ibm.com/docs/appid?topic=appid-mng-data"
   default     = false
 }
 

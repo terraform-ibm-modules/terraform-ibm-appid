@@ -23,7 +23,7 @@ More information about the IBM AppID can be found [here](https://cloud.ibm.com/d
 * [terraform-ibm-appid](#terraform-ibm-appid)
 * [Examples](./examples)
     * [Advanced example](./examples/advanced)
-    * [Complete example](./examples/basic)
+    * [Basic example](./examples/basic)
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
 
@@ -50,7 +50,18 @@ unless real values don't help users know what to change.
 -->
 
 ```hcl
+provider "ibm" {
+  ibmcloud_api_key = "XXXXXXXXXX"
+  region           = "us-south"
+}
 
+module "appid" {
+  source            = "terraform-ibm-modules/appid/ibm"
+  version           = "latest" # Replace "latest" with a release version to lock into a specific release
+  resource_group_id = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  appid_name        = "my-appid"
+  region            = "us-south"
+}
 ```
 
 ### Required IAM access policies
@@ -91,7 +102,7 @@ statement instead the previous block.
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0, <1.7.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.49.0, < 2.0.0 |
-| <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.8.0 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.8.0, <1.0.0 |
 
 ### Modules
 
@@ -112,12 +123,12 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_appid_name"></a> [appid\_name](#input\_appid\_name) | Name of the AppID resource. | `string` | n/a | yes |
 | <a name="input_existing_kms_instance_guid"></a> [existing\_kms\_instance\_guid](#input\_existing\_kms\_instance\_guid) | The GUID of the Hyper Protect or Key Protect instance in which the key specified in `kms_key_crn` is coming from. Only required if `skip_iam_authorization_policy` is 'false'. | `string` | `null` | no |
-| <a name="input_kms_encryption_enabled"></a> [kms\_encryption\_enabled](#input\_kms\_encryption\_enabled) | Set this to true to control the encryption keys used to encrypt the data that you store for AppID. If set to false, the data is encrypted by using randomly generated keys. For more info on Managing Encryption, see https://cloud.ibm.com/docs/event-notifications?topic=event-notifications-en-managing-encryption | `bool` | `false` | no |
+| <a name="input_kms_encryption_enabled"></a> [kms\_encryption\_enabled](#input\_kms\_encryption\_enabled) | Set this to true to control the encryption keys used to encrypt the data that you store for AppID. If set to false, the data is encrypted by using randomly generated keys. For more info on securing data in AppID, see https://cloud.ibm.com/docs/appid?topic=appid-mng-data | `bool` | `false` | no |
 | <a name="input_kms_key_crn"></a> [kms\_key\_crn](#input\_kms\_key\_crn) | The root key CRN of a Key Management Services like Key Protect or Hyper Protect Crypto Service (HPCS) that you want to use for disk encryption. Only used if `kms_encryption_enabled` is set to true. | `string` | `null` | no |
 | <a name="input_plan"></a> [plan](#input\_plan) | Plan for the AppID resource. | `string` | `"graduated-tier"` | no |
 | <a name="input_region"></a> [region](#input\_region) | Region for the AppID resource. | `string` | n/a | yes |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | Resource group ID for the AppID resources. | `string` | n/a | yes |
-| <a name="input_resource_keys"></a> [resource\_keys](#input\_resource\_keys) | The definition of any resource keys to be generated | <pre>list(object({<br>    name                      = string<br>    generate_hmac_credentials = optional(bool, false)<br>    role                      = optional(string, "Reader")<br>    service_id_crn            = string<br>  }))</pre> | `[]` | no |
+| <a name="input_resource_keys"></a> [resource\_keys](#input\_resource\_keys) | The definition of any resource keys to be generated | <pre>list(object({<br>    name           = string<br>    role           = optional(string, "Viewer")<br>    service_id_crn = optional(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Optional list of tags to be added to created resources | `list(string)` | `[]` | no |
 | <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Hyper Protect or Key Protect instance passed in var.existing\_kms\_instance\_guid. If set to 'false', a value must be passed for var.existing\_kms\_instance\_guid. No policy is created if var.kms\_encryption\_enabled is set to 'false'. No policy is created if var.kms\_encryption\_enabled is set to false. | `bool` | `false` | no |
 

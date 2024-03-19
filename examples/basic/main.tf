@@ -15,13 +15,10 @@ module "resource_group" {
 ########################################################################################################################
 
 module "appid" {
-  source                        = "../.."
-  appid_name                    = "${var.prefix}-appid"
-  region                        = var.region
-  resource_group_id             = module.resource_group.resource_group_id
-  resource_tags                 = var.resource_tags
-  kms_key_crn                   = var.kms_key_crn
-  existing_kms_instance_guid    = var.existing_kms_instance_guid
-  skip_iam_authorization_policy = false
-  kms_encryption_enabled        = true
+  source                 = "../.."
+  appid_name             = "${var.prefix}-appid"
+  region                 = var.region
+  resource_group_id      = module.resource_group.resource_group_id
+  resource_tags          = var.resource_tags
+  kms_encryption_enabled = false
 }

@@ -22,10 +22,10 @@ locals {
 ##############################################################################
 
 resource "ibm_iam_authorization_policy" "policy" {
-  count                       = var.skip_iam_authorization_policy ? 0 : 1
+  count                       = (var.kms_encryption_enabled && !var.skip_iam_authorization_policy) ? 1 : 0
   source_service_name         = "appid"
   source_resource_group_id    = var.resource_group_id
-  description                 = "Allow AppID instance to read from KMS instance"
+  description                 = "Allow all AppID instances in the given resource group reader access to KMS instance ${var.existing_kms_instance_guid}"
   target_service_name         = local.kms_service
   target_resource_instance_id = var.existing_kms_instance_guid
   roles = [
@@ -58,5 +58,5 @@ resource "ibm_resource_key" "resource_keys" {
   for_each             = { for key in var.resource_keys : key.name => key }
   name                 = each.key
   resource_instance_id = ibm_resource_instance.appid.id
-  role                 = each.value.role
+  role                 = "Viewer"
 }
