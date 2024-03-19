@@ -23,6 +23,7 @@ module "appid" {
   kms_key_crn                   = var.kms_key_crn
   existing_kms_instance_guid    = var.existing_kms_instance_guid
   skip_iam_authorization_policy = false
+  kms_encryption_enabled        = true
 }
 
 ########################################################################################################################
