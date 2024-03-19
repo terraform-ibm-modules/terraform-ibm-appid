@@ -17,7 +17,6 @@ module "resource_group" {
 module "appid" {
   source                        = "../.."
   appid_name                    = "${var.prefix}-appid"
-  appid_key_name                = "${var.prefix}-appid-key"
   region                        = var.region
   resource_group_id             = module.resource_group.resource_group_id
   resource_tags                 = var.resource_tags
@@ -52,8 +51,6 @@ resource "ibm_appid_mfa" "mf" {
 ########################################################################################################################
 
 resource "random_password" "password" {
-  count = var.user_count
-
   length           = 16
   special          = true
   override_special = "!#-"
@@ -61,21 +58,20 @@ resource "random_password" "password" {
 
 resource "ibm_appid_cloud_directory_user" "user" {
   depends_on = [ibm_appid_idp_cloud_directory.cd] # For deletion user must be deleted before the Cloud Directory
-  count      = var.user_count
 
   tenant_id = module.appid.tenant_id
 
   email {
-    value   = "attendee-${count.index}@example.com"
+    value   = "attendee-1@example.com"
     primary = true
   }
 
   active = true
 
-  user_name = "${var.prefix}-${format("%02d", count.index + 1)}"
-  password  = random_password.password[count.index].result
+  user_name = "${var.prefix}-${format("%02d", 1)}"
+  password  = random_password.password.result
 
-  display_name = "${var.prefix}-${format("%02d", count.index + 1)}"
+  display_name = "${var.prefix}-${format("%02d", 1)}"
 
   create_profile = true
 }
@@ -112,9 +108,7 @@ resource "ibm_appid_role" "role" {
 
 # Assign AppID role to the users
 resource "ibm_appid_user_roles" "roles" {
-  count = var.user_count
-
   tenant_id = module.appid.tenant_id
-  subject   = ibm_appid_cloud_directory_user.user[count.index].subject
+  subject   = ibm_appid_cloud_directory_user.user.subject
   role_ids  = [ibm_appid_role.role.role_id]
 }

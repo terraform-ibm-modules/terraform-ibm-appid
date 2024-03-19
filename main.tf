@@ -1,6 +1,13 @@
 locals {
   # tflint-ignore: terraform_unused_declarations
-  validate_kms_vars = !var.skip_iam_authorization_policy && (var.kms_key_crn == null && var.existing_kms_instance_guid == null) ? tobool("When setting var.skip_iam_authorization_policy to true, a value must be passed for var.kms_key_crn and var.existing_kms_instance_guid") : true
+  validate_kms_plan = var.kms_encryption_enabled && var.plan != "graduated-tier" ? tobool("kms encryption is only supported for graduated-tier plan") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_auth_policy = var.kms_encryption_enabled && !var.skip_iam_authorization_policy && var.existing_kms_instance_guid == null ? tobool("When var.skip_iam_authorization_policy is set to false, and var.kms_encryption_enabled to true, a value must be passed for var.existing_kms_instance_guid in order to create the auth policy.") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_kms_values = !var.kms_encryption_enabled && (var.existing_kms_instance_guid != null || var.kms_key_crn != null) ? tobool("When passing values for var.existing_kms_instance_guid or/and var.kms_key_crn, you must set var.kms_encryption_enabled to true. Otherwise unset them to use default encryption") : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_kms_vars = var.kms_encryption_enabled && (var.existing_kms_instance_guid == null || var.kms_key_crn == null) ? tobool("When setting var.kms_encryption_enabled to true, a value must be passed for var.existing_kms_instance_guid and var.kms_key_crn") : true
+
 
   # Determine what KMS service is being used for database encryption
   kms_service = var.kms_key_crn != null ? (
@@ -47,9 +54,9 @@ resource "ibm_resource_instance" "appid" {
   }
 }
 
-resource "ibm_resource_key" "appid" {
+resource "ibm_resource_key" "resource_keys" {
+  for_each             = { for key in var.resource_keys : key.name => key }
+  name                 = each.key
   resource_instance_id = ibm_resource_instance.appid.id
-  role                 = "Writer"
-  name                 = var.appid_key_name
-  tags                 = var.resource_tags
+  role                 = each.value.role
 }

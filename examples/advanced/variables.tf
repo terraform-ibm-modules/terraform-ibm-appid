@@ -28,12 +28,6 @@ variable "resource_tags" {
   default     = []
 }
 
-variable "user_count" {
-  type        = number
-  description = "Number of users to be added to the Cloud Directory."
-  default     = 1
-}
-
 variable "kms_key_crn" {
   type        = string
   description = "The root key CRN of a Key Management Services like Key Protect or Hyper Protect Crypto Service (HPCS) that you want to use for disk encryption. Only used if `kms_encryption_enabled` is set to true."
