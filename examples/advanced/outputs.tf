@@ -7,6 +7,11 @@ output "tenant_id" {
   value       = module.appid.tenant_id
 }
 
+output "client_id" {
+  description = "Client ID of the application."
+  value       = ibm_appid_application.app.client_id
+}
+
 output "id" {
   description = "AppID instance ID."
   value       = module.appid.id

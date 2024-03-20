@@ -1,4 +1,3 @@
-// Tests in this file are NOT run in the PR pipeline. They are run in the continuous testing pipeline along with the ones in pr_test.go
 package test
 
 import (
@@ -10,7 +9,7 @@ import (
 func TestRunBasicExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "mod-template-basic", "examples/basic")
+	options := setupOptions(t, "appid-bas", basicExampleDir)
 
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")

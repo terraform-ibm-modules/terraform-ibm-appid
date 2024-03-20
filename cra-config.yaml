@@ -1,11 +1,9 @@
 # More info about this file at https://github.com/terraform-ibm-modules/common-pipeline-assets/blob/main/.github/workflows/terraform-test-pipeline.md#cra-config-yaml
 version: "v1"
 CRA_TARGETS:
-  - CRA_TARGET: "examples/basic" # Target directory for CRA scan. If not provided, the CRA Scan will not be run.
+  - CRA_TARGET: "examples/advanced" # Target directory for CRA scan. If not provided, the CRA Scan will not be run.
     CRA_IGNORE_RULES_FILE: "cra-tf-validate-ignore-rules.json" # CRA Ignore file to use. If not provided, it checks the repo root directory for `cra-tf-validate-ignore-rules.json`
-    # CRA_ENVIRONMENT_VARIABLES:  # An optional map of environment variables for CRA, where the key is the variable name and value is the value. Useful for providing TF_VARs.
-    #   TF_VAR_sample: "sample value"
-    #   TF_VAR_other:  "another value"
-    # SCC_INSTANCE_ID: "" # The SCC instance ID to use to download profile for CRA scan. If not provided, a default global value will be used.
-    # SCC_REGION: "" # The IBM Cloud region that the SCC instance is in. If not provided, a default global value will be used.
-    # PROFILE_ID: "" # The Profile ID input for CRA SCC scan. If not provided, a default global value will be used.
+    PROFILE_ID: "0e6e7b5a-817d-4344-ab6f-e5d7a9c49520" # SCC profile ID (currently set to the FSCloud 1.4.0 profile).
+    CRA_ENVIRONMENT_VARIABLES:
+      TF_VAR_kms_key_crn: "crn:v1:bluemix:public:kms:us-south:a/9f9af00a96104f49b6509aa715f9d6a5:44f9c10d-99f5-4547-9e9f-2a1c84b5f0a4:key:f6c9f6d0-92f6-437a-b97c-4b617cb3d320"
+      TF_VAR_existing_kms_instance_guid: "44f9c10d-99f5-4547-9e9f-2a1c84b5f0a4"
