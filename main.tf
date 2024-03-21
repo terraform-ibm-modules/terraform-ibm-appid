@@ -15,6 +15,8 @@ locals {
       can(regex(".*hs-crypto.*", var.kms_key_crn)) ? "hs-crypto" : null
     )
   ) : null
+
+  parameters_enabled = var.existing_kms_instance_guid != null && var.kms_key_crn != null ? true : false
 }
 
 ##############################################################################
@@ -48,10 +50,10 @@ resource "ibm_resource_instance" "appid" {
   location          = var.region
   resource_group_id = var.resource_group_id
   tags              = var.resource_tags
-  parameters = {
+  parameters = local.parameters_enabled ? {
     kms_info = "{\"id\": \"${var.existing_kms_instance_guid}\"}"
     tek_id   = var.kms_key_crn
-  }
+  } : null
 }
 
 resource "ibm_resource_key" "resource_keys" {

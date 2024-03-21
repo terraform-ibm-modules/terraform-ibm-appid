@@ -25,24 +25,28 @@
       "provider_name": "IBM",
       "features": [
         {
-          "description": "Supports configuring the marketplace Catalog Source for the IBM Operators catalog on existing cluster.",
-          "title": "Configures Catalog Source for the IBM Operators catalog on existing cluster."
+          "description": "Creates an IBM AppID instance.",
+          "title": "Creates an IBM AppID instance with either `graduate-tier` or `lite` plan."
         },
         {
-          "description": "Supports configuring the Operator Group for the IBM MQ Operator on existing cluster.",
-          "title": "Configures the Operator Group for the IBM MQ Operator on existing cluster."
+          "description": "Creates resource keys.",
+          "title": "Create resource keys for the `service` roles: 'Writer', 'Manager', 'Reader'."
         },
         {
-          "description": "Supports installing the IBM MQ Operator on existing cluster.",
-          "title": "Installs the IBM MQ Operator on existing cluster."
+          "description": "Creates an authorization policy.",
+          "title": "Creates an IBM IAM authorization policy between AppID in the given resource group and an existing IBM Key Protect or Hyper Protect Crypto Service (HPCS) instance."
+        },
+        {
+          "description": "Secures data in the AppID.",
+          "title": "Secures data in the AppID by encrypting it with "
         }
       ],
       "flavors": [
         {
           "label": "Standard",
           "name": "standard",
-          "install_type": "extension",
-          "working_directory": "extensions/landing-zone",
+          "install_type": "fullstack",
+          "working_directory": "solutions/appid",
           "dependencies": [
             {
               "flavors": [

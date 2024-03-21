@@ -20,6 +20,10 @@ variable "plan" {
 variable "region" {
   type        = string
   description = "Region for the AppID resource."
+  validation {
+    condition     = contains(["jp-osa", "jp-tok", "us-east", "au-syd", "br-sao", "ca-tor", "eu-de", "eu-gb", "us-south"], var.region)
+    error_message = "The specified region is not valid, supported regions are: jp-osa, jp-tok, us-east, au-syd, br-sao, ca-tor, eu-de, eu-gb, us-south."
+  }
 }
 
 variable "resource_group_id" {
@@ -38,9 +42,9 @@ variable "resource_keys" {
   validation {
     # From: https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key
     condition = alltrue([
-      for key in var.resource_keys : contains(["Service Configuration Reader", "Viewer", "Administrator", "Operator", "Editor", "Writer", "Manager", "Key Manager", "Reader"], key.role)
+      for key in var.resource_keys : contains(["Writer", "Manager", "Reader"], key.role)
     ])
-    error_message = "resource_keys role must be one of 'Service Configuration Reader', 'Viewer', 'Administrator', 'Operator', 'Editor', 'Writer', 'Manager', 'Key Manager', 'Reader', reference https://cloud.ibm.com/iam/roles and `AppID`"
+    error_message = "resource_keys role must be one of 'Writer', 'Manager', 'Reader', reference https://cloud.ibm.com/iam/roles, `AppID` and type `Service` roles."
   }
 }
 
@@ -60,12 +64,14 @@ variable "kms_encryption_enabled" {
   type        = bool
   description = "Set this to true to control the encryption keys used to encrypt the data that you store for AppID. If set to false, the data is encrypted by using randomly generated keys. For more info on securing data in AppID, see https://cloud.ibm.com/docs/appid?topic=appid-mng-data"
   default     = false
+  nullable    = true
 }
 
 variable "kms_key_crn" {
   type        = string
   description = "The root key CRN of a Key Management Services like Key Protect or Hyper Protect Crypto Service (HPCS) that you want to use for disk encryption. Only used if `kms_encryption_enabled` is set to true."
   default     = null
+  nullable    = true
   validation {
     condition = anytrue([
       var.kms_key_crn == null,
