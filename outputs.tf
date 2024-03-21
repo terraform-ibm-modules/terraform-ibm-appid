@@ -16,3 +16,8 @@ output "dashboard_url" {
   description = "AppID dashboard url."
   value       = ibm_resource_instance.appid.dashboard_url
 }
+
+output "user_subjects" {
+  description = "The user's identifier."
+  value       = ibm_appid_cloud_directory_user.user[*].subject
+}

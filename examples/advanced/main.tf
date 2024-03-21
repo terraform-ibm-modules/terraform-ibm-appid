@@ -15,67 +15,12 @@ module "resource_group" {
 ########################################################################################################################
 
 module "appid" {
-  source                        = "../.."
-  appid_name                    = "${var.prefix}-appid"
-  region                        = var.region
-  resource_group_id             = module.resource_group.resource_group_id
-  resource_tags                 = var.resource_tags
-  kms_key_crn                   = var.kms_key_crn
-  existing_kms_instance_guid    = var.existing_kms_instance_guid
-  skip_iam_authorization_policy = false
-  kms_encryption_enabled        = true
-  #  resource_keys                 = [{ name = "${var.prefix}-sc" }]  tracking issue https://github.ibm.com/GoldenEye/issues/issues/8118
-}
-
-########################################################################################################################
-# Manage authentications
-########################################################################################################################
-
-resource "ibm_appid_idp_cloud_directory" "cd" {
-  tenant_id                           = module.appid.tenant_id
-  is_active                           = true
-  identity_confirm_access_mode        = "OFF"
-  identity_field                      = "userName"
-  reset_password_enabled              = false
-  reset_password_notification_enabled = false
-  signup_enabled                      = false
-  self_service_enabled                = false
-  welcome_enabled                     = true
-}
-
-resource "ibm_appid_mfa" "mf" {
-  tenant_id = module.appid.tenant_id
-  is_active = true
-}
-
-########################################################################################################################
-# Add users to the Cloud Directory
-########################################################################################################################
-
-resource "random_password" "password" {
-  length           = 16
-  special          = true
-  override_special = "!#-"
-}
-
-resource "ibm_appid_cloud_directory_user" "user" {
-  depends_on = [ibm_appid_idp_cloud_directory.cd] # For deletion user must be deleted before the Cloud Directory
-
-  tenant_id = module.appid.tenant_id
-
-  email {
-    value   = "attendee-1@example.com"
-    primary = true
-  }
-
-  active = true
-
-  user_name = "${var.prefix}-${format("%02d", 1)}"
-  password  = random_password.password.result
-
-  display_name = "${var.prefix}-${format("%02d", 1)}"
-
-  create_profile = true
+  source                 = "../.."
+  appid_name             = "${var.prefix}-appid"
+  region                 = var.region
+  resource_group_id      = module.resource_group.resource_group_id
+  resource_tags          = var.resource_tags
+  kms_encryption_enabled = false
 }
 
 ########################################################################################################################
@@ -110,7 +55,8 @@ resource "ibm_appid_role" "role" {
 
 # Assign AppID role to the users
 resource "ibm_appid_user_roles" "roles" {
+  count     = length(module.appid.user_subjects)
   tenant_id = module.appid.tenant_id
-  subject   = ibm_appid_cloud_directory_user.user.subject
+  subject   = module.appid.user_subjects[count.index]
   role_ids  = [ibm_appid_role.role.role_id]
 }

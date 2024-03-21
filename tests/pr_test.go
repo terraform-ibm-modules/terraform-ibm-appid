@@ -4,6 +4,7 @@ package test
 import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"log"
+	"math/rand"
 	"os"
 	"testing"
 
@@ -12,8 +13,20 @@ import (
 )
 
 const advancedExampleDir = "examples/advanced"
-const basicExampleDir = "examples/basic"
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
+
+// Current supported AppID region
+var validRegions = []string{
+	"jp-osa",
+	"jp-tok",
+	"us-east",
+	"au-syd",
+	"br-sao",
+	"ca-tor",
+	"eu-de",
+	"eu-gb",
+	"us-south",
+}
 
 var permanentResources map[string]interface{}
 
@@ -33,6 +46,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		Testing:      t,
 		TerraformDir: dir,
 		Prefix:       prefix,
+		Region:       validRegions[rand.Intn(len(validRegions))],
 		TerraformVars: map[string]interface{}{
 			"kms_key_crn":                permanentResources["kp_us_south_root_key_crn"],
 			"existing_kms_instance_guid": permanentResources["kp_us_south_guid"],

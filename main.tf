@@ -15,6 +15,8 @@ locals {
       can(regex(".*hs-crypto.*", var.kms_key_crn)) ? "hs-crypto" : null
     )
   ) : null
+
+  parameters_enabled = var.existing_kms_instance_guid != null && var.kms_key_crn != null ? true : false
 }
 
 ##############################################################################
@@ -48,15 +50,63 @@ resource "ibm_resource_instance" "appid" {
   location          = var.region
   resource_group_id = var.resource_group_id
   tags              = var.resource_tags
-  parameters = {
+  parameters = local.parameters_enabled ? {
     kms_info = "{\"id\": \"${var.existing_kms_instance_guid}\"}"
     tek_id   = var.kms_key_crn
-  }
+  } : null
 }
 
 resource "ibm_resource_key" "resource_keys" {
   for_each             = { for key in var.resource_keys : key.name => key }
   name                 = each.key
   resource_instance_id = ibm_resource_instance.appid.id
-  role                 = "Viewer"
+  role                 = each.value.role
+}
+
+########################################################################################################################
+# Manage authentications
+########################################################################################################################
+
+resource "ibm_appid_idp_cloud_directory" "cd" {
+  tenant_id                           = ibm_resource_instance.appid.guid
+  is_active                           = var.is_idp_cloud_directory_active
+  identity_confirm_access_mode        = var.identity_confirm_access_mode
+  identity_field                      = var.identity_field
+  reset_password_enabled              = var.reset_password_enabled
+  reset_password_notification_enabled = var.reset_password_notification_enabled
+  signup_enabled                      = var.signup_enabled
+  self_service_enabled                = var.self_service_enabled
+  welcome_enabled                     = var.welcome_enabled
+}
+
+resource "ibm_appid_mfa" "mf" {
+  tenant_id = ibm_resource_instance.appid.guid
+  is_active = var.is_mfa_active
+}
+
+########################################################################################################################
+# Add users to the Cloud Directory
+########################################################################################################################
+
+resource "random_password" "password" {
+  count            = length(var.users)
+  length           = 16
+  special          = true
+  override_special = "!#-"
+}
+
+resource "ibm_appid_cloud_directory_user" "user" {
+  depends_on = [ibm_appid_idp_cloud_directory.cd] # For deletion user must be deleted before the Cloud Directory
+  count      = length(var.users)
+  tenant_id  = ibm_resource_instance.appid.guid
+
+  email {
+    value   = var.users[count.index]
+    primary = true
+  }
+
+  user_name      = split("@", var.users[count.index])[0]
+  active         = true
+  password       = random_password.password[count.index].result
+  create_profile = true
 }
