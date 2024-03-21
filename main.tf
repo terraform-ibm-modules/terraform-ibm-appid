@@ -58,5 +58,5 @@ resource "ibm_resource_key" "resource_keys" {
   for_each             = { for key in var.resource_keys : key.name => key }
   name                 = each.key
   resource_instance_id = ibm_resource_instance.appid.id
-  role                 = "Viewer"
+  role                 = each.value.role
 }

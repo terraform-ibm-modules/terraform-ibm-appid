@@ -24,7 +24,7 @@ module "appid" {
   existing_kms_instance_guid    = var.existing_kms_instance_guid
   skip_iam_authorization_policy = false
   kms_encryption_enabled        = true
-  #  resource_keys                 = [{ name = "${var.prefix}-sc" }]  tracking issue https://github.ibm.com/GoldenEye/issues/issues/8118
+  resource_keys                 = [{ name = "${var.prefix}-sc" }] #tracking issue https://github.ibm.com/GoldenEye/issues/issues/8118
 }
 
 ########################################################################################################################

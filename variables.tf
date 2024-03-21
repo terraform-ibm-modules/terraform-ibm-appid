@@ -31,16 +31,16 @@ variable "resource_keys" {
   description = "The definition of any resource keys to be generated"
   type = list(object({
     name           = string
-    role           = optional(string, "Viewer")
+    role           = optional(string, "Reader")
     service_id_crn = optional(string)
   }))
   default = []
   validation {
     # From: https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key
     condition = alltrue([
-      for key in var.resource_keys : contains(["Service Configuration Reader", "Viewer", "Administrator", "Operator", "Editor", "Writer", "Manager", "Key Manager"], key.role)
+      for key in var.resource_keys : contains(["Service Configuration Reader", "Viewer", "Administrator", "Operator", "Editor", "Writer", "Manager", "Key Manager", "Reader"], key.role)
     ])
-    error_message = "resource_keys role must be one of 'Service Configuration Reader', 'Viewer', 'Administrator', 'Operator', 'Editor', 'Writer', 'Manager', 'Key Manager', reference https://cloud.ibm.com/iam/roles and `AppID`"
+    error_message = "resource_keys role must be one of 'Service Configuration Reader', 'Viewer', 'Administrator', 'Operator', 'Editor', 'Writer', 'Manager', 'Key Manager', 'Reader', reference https://cloud.ibm.com/iam/roles and `AppID`"
   }
 }
 
