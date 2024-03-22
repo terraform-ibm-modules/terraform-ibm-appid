@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "name": "deploy-arch-ibm-appid-operator",
+      "name": "deploy-arch-ibm-appid",
       "label": "IBM AppID",
       "product_kind": "solution",
       "tags": [
