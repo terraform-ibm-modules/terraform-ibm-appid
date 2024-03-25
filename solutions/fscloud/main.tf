@@ -28,21 +28,6 @@ module "appid" {
   resource_tags              = var.resource_tags
   kms_key_crn                = var.kms_key_crn
   existing_kms_instance_guid = var.existing_kms_instance_guid
-  resource_keys = [{
-    name           = "${var.prefix}-writer"
-    role           = "Writer"
-    service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceids[0].crn
-    },
-    {
-      name           = "${var.prefix}-manager"
-      role           = "Manager"
-      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceids[1].crn
-    },
-    {
-      name           = "${var.prefix}-reader"
-      role           = "Reader"
-      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceids[2].crn
-    }
-  ]
-  users = ["user1234@example.com"]
+  resource_keys              = var.resource_keys
+  users                      = var.users
 }

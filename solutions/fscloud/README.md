@@ -1,8 +1,8 @@
-# Financial Services compliant example
+# Financial Services compliant AppID Deployable Architecture (DA)
 
-This example uses the [Profile for IBM Cloud Framework for Financial Services](https://github.com/terraform-ibm-modules/terraform-ibm-appid/tree/main/profiles/fscloud) to provision an IBM AppID instance.
+This DA uses the [Profile for IBM Cloud Framework for Financial Services](https://github.com/terraform-ibm-modules/terraform-ibm-appid/tree/main/profiles/fscloud) to provision an IBM AppID instance.
 
-The following resources are provisioned by this example:
+The following resources are provisioned by this DA:
 
 - A new resource group if one is not passed in.
 - Creates serviceIds for "Reader", "Manager" and "Writer" roles.
@@ -13,10 +13,10 @@ The following resources are provisioned by this example:
 - Creates an application, scopes and roles.
 - Assign roles to the users.
 
-:exclamation: **Important:** In this example, only the IBM AppID resources complies with the IBM Cloud Framework for Financial Services. Other parts of the infrastructure do not necessarily comply.
+:exclamation: **Important:** In this DA, only the IBM AppID resources complies with the IBM Cloud Framework for Financial Services. Other parts of the infrastructure do not necessarily comply.
 
 ## Before you begin
 
-Before you run the example, make sure that you set up the following prerequisites:
+Before you run the DA, make sure that you set up the following prerequisites:
 
 - A Hyper Protect Crypto Services (HPCS) instance and root key that you want to secure data with the AppID.

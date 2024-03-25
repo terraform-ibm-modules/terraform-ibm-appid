@@ -159,7 +159,7 @@ variable "welcome_enabled" {
 ########################################################################################################################
 
 variable "users" {
-  description = "Number of users to add."
+  description = "List of users to add."
   type        = list(string)
   default     = []
 }

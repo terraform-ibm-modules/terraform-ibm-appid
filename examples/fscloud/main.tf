@@ -11,8 +11,7 @@ module "resource_group" {
 }
 
 resource "ibm_iam_service_id" "resource_keys_existing_serviceids" {
-  count       = 3
-  name        = "${var.prefix}-serviceid-${count.index}"
+  name        = "${var.prefix}-serviceid"
   description = "ServiceID for ${var.prefix} env to use for resource key credentials"
 }
 
@@ -31,17 +30,15 @@ module "appid" {
   resource_keys = [{
     name           = "${var.prefix}-writer"
     role           = "Writer"
-    service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceids[0].crn
+    service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceids.crn
     },
     {
-      name           = "${var.prefix}-manager"
-      role           = "Manager"
-      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceids[1].crn
+      name = "${var.prefix}-manager"
+      role = "Manager"
     },
     {
-      name           = "${var.prefix}-reader"
-      role           = "Reader"
-      service_id_crn = ibm_iam_service_id.resource_keys_existing_serviceids[2].crn
+      name = "${var.prefix}-reader"
+      role = "Reader"
     }
   ]
   users = ["user1234@example.com"]

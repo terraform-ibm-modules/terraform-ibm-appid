@@ -10,8 +10,8 @@ module "appid" {
   resource_tags                 = var.resource_tags
   kms_key_crn                   = var.kms_key_crn
   existing_kms_instance_guid    = var.existing_kms_instance_guid
-  skip_iam_authorization_policy = false
-  kms_encryption_enabled        = true
+  skip_iam_authorization_policy = var.skip_iam_authorization_policy
+  kms_encryption_enabled        = var.kms_encryption_enabled
   resource_keys                 = var.resource_keys
   users                         = var.users
 }
