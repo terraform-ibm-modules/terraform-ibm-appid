@@ -25,6 +25,7 @@ module "appid" {
   skip_iam_authorization_policy = false
   kms_encryption_enabled        = true
   resource_keys                 = [{ name = "${var.prefix}-sc" }]
+  users                         = ["user1234@example.com"]
 }
 
 ########################################################################################################################

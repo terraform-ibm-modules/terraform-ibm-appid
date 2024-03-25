@@ -161,5 +161,5 @@ variable "welcome_enabled" {
 variable "users" {
   description = "Number of users to add."
   type        = list(string)
-  default     = ["user1234@example.com"]
+  default     = []
 }

@@ -23,6 +23,7 @@ More information about the IBM AppID can be found [here](https://cloud.ibm.com/d
 * [terraform-ibm-appid](#terraform-ibm-appid)
 * [Examples](./examples)
     * [Advanced example](./examples/advanced)
+    * [Basic example](./examples/basic)
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
 
@@ -101,7 +102,7 @@ statement instead the previous block.
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0, <1.7.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.49.0, < 2.0.0 |
-| <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.6.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | = 3.6.0, <4.0.0 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.8.0, <1.0.0 |
 
 ### Modules
@@ -143,7 +144,7 @@ No modules.
 | <a name="input_self_service_enabled"></a> [self\_service\_enabled](#input\_self\_service\_enabled) | Set this to true to allow users to change password and edit user details. | `bool` | `false` | no |
 | <a name="input_signup_enabled"></a> [signup\_enabled](#input\_signup\_enabled) | Set this to true to allow users to signup. | `bool` | `false` | no |
 | <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Hyper Protect or Key Protect instance passed in var.existing\_kms\_instance\_guid. If set to 'false', a value must be passed for var.existing\_kms\_instance\_guid. No policy is created if var.kms\_encryption\_enabled is set to 'false'. No policy is created if var.kms\_encryption\_enabled is set to false. | `bool` | `false` | no |
-| <a name="input_users"></a> [users](#input\_users) | Number of users to add. | `list(string)` | <pre>[<br>  "user1234@example.com"<br>]</pre> | no |
+| <a name="input_users"></a> [users](#input\_users) | Number of users to add. | `list(string)` | `[]` | no |
 | <a name="input_welcome_enabled"></a> [welcome\_enabled](#input\_welcome\_enabled) | Set this to true to send welcome emails to the new users. | `bool` | `false` | no |
 
 ### Outputs
