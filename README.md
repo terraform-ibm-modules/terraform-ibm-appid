@@ -21,6 +21,8 @@ More information about the IBM AppID can be found [here](https://cloud.ibm.com/d
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview
 * [terraform-ibm-appid](#terraform-ibm-appid)
+* [Submodules](./modules)
+    * [fscloud](./modules/fscloud)
 * [Examples](./examples)
     * [Advanced example](./examples/advanced)
     * [Financial Services compliant example](./examples/fscloud)

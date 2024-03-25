@@ -15,7 +15,7 @@ module "resource_group" {
 ########################################################################################################################
 
 module "appid" {
-  source                     = "../../profiles/fscloud"
+  source                     = "../../modules/fscloud"
   appid_name                 = "${var.prefix}-appid"
   resource_group_id          = module.resource_group.resource_group_id
   region                     = var.region

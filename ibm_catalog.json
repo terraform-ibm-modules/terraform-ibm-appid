@@ -58,7 +58,7 @@
           "label": "fscloud",
           "name": "fscloud",
           "install_type": "fullstack",
-          "working_directory": "profiles/fscloud",
+          "working_directory": "solutions/fscloud",
           "compliance": {
             "authority": "scc-v3",
             "profiles": [
