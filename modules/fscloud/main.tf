@@ -13,4 +13,5 @@ module "appid" {
   skip_iam_authorization_policy = false
   kms_encryption_enabled        = true
   resource_keys                 = var.resource_keys
+  users                         = var.users
 }

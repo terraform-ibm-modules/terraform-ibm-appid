@@ -39,3 +39,9 @@ variable "resource_keys" {
   }))
   default = []
 }
+
+variable "users" {
+  description = "Number of users to add."
+  type        = list(string)
+  default     = []
+}
