@@ -15,6 +15,8 @@ import (
 const advancedExampleDir = "examples/advanced"
 const fscloudExampleDir = "examples/fscloud"
 const fscloudSolutionsDir = "solutions/fscloud"
+const basicExampleDir = "examples/basic"
+
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 
 // Current supported AppID region
