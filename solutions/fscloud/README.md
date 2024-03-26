@@ -7,13 +7,14 @@ The following resources are provisioned by this DA:
 - A new resource group if one is not passed in.
 - Creates a serviceIds for a "Writer" role.
 - An IAM authorization policy for AppID instance to read from KMS instance.
-- An AppID instance and a resource key.
+- An AppID instance.
+- Optionally, supports creating resource keys.
 - A Cloud Directory authentication with Multi-factor authentication (MFA) enabled.
-- Adds a user to the Cloud Directory, and generates random password for the user.
+- It takes list of users in and add them in the Cloud Directory. It generates random password for each user.
 - Creates an application, scopes and roles.
 - Assign roles to the users.
 
-:exclamation: **Important:** In this DA, only the IBM AppID resources complies with the IBM Cloud Framework for Financial Services. Other parts of the infrastructure do not necessarily comply.
+**Note**: This DA creates random password for the new users. Set `self_service_enabled` to `true` to give users permission to change their passwords.
 
 ## Before you begin
 

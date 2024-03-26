@@ -25,7 +25,6 @@ module "appid" {
   resource_group_id          = module.resource_group.resource_group_id
   region                     = var.region
   resource_tags              = var.resource_tags
-  kms_encryption_enabled     = true
   kms_key_crn                = var.kms_key_crn
   existing_kms_instance_guid = var.existing_kms_instance_guid
   resource_keys = [{

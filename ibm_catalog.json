@@ -10,10 +10,9 @@
         "terraform",
         "security",
         "solution",
-        "Application modernization",
-        "Digital transformation",
-        "Deployable architecture",
-        "Integration"
+        "application_modernization",
+        "digital_transformation",
+        "integration"
       ],
       "keywords": [
         "IaC",

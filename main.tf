@@ -16,7 +16,7 @@ locals {
     )
   ) : null
 
-  parameters_enabled = var.existing_kms_instance_guid != null && var.kms_key_crn != null ? true : false
+  parameters_enabled = var.kms_encryption_enabled && var.existing_kms_instance_guid != null && var.kms_key_crn != null ? true : false
 }
 
 ##############################################################################

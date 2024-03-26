@@ -68,10 +68,22 @@ func TestRunFSCloudExample(t *testing.T) {
 	assert.NotNil(t, output, "Expected some output")
 }
 
-func TestRunUpgradeExample(t *testing.T) {
+func TestRunUpgradeFSCloudSolution(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "appid-fs-upg", fscloudExampleDir)
+	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
+		Testing:      t,
+		TerraformDir: fscloudSolutionsDir,
+		Prefix:       "appid-fs-upg",
+		Region:       validRegions[rand.Intn(len(validRegions))],
+	})
+
+	options.TerraformVars = map[string]interface{}{
+		"ibmcloud_api_key":           options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
+		"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
+		"existing_kms_instance_guid": permanentResources["hpcs_south"],
+		"prefix":                     options.Prefix,
+	}
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
@@ -86,6 +98,7 @@ func TestRunFSCloudSolution(t *testing.T) {
 	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
 		Testing:      t,
 		TerraformDir: fscloudSolutionsDir,
+		Prefix:       "appid-sol",
 		Region:       validRegions[rand.Intn(len(validRegions))],
 	})
 
@@ -93,7 +106,7 @@ func TestRunFSCloudSolution(t *testing.T) {
 		"ibmcloud_api_key":           options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
 		"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
 		"existing_kms_instance_guid": permanentResources["hpcs_south"],
-		"prefix":                     "appid-sol",
+		"prefix":                     options.Prefix,
 	}
 
 	output, err := options.RunTestConsistency()

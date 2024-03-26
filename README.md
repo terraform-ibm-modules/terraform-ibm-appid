@@ -17,6 +17,8 @@ This module creates an IBM AppID instance and a resource key.
 
 More information about the IBM AppID can be found [here](https://cloud.ibm.com/docs/appid?topic=appid-getting-started)
 
+**Note**: This module creates random password for the new users. Set `self_service_enabled` to `true` to give users permission to change their passwords.
+
 <!-- Below content is automatically populated via pre-commit hook -->
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview
@@ -141,11 +143,11 @@ No modules.
 | <a name="input_reset_password_enabled"></a> [reset\_password\_enabled](#input\_reset\_password\_enabled) | Set this to true to enable password resets. | `bool` | `false` | no |
 | <a name="input_reset_password_notification_enabled"></a> [reset\_password\_notification\_enabled](#input\_reset\_password\_notification\_enabled) | Set this to true to enable password notifications. | `bool` | `false` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | Resource group ID for the AppID resources. | `string` | n/a | yes |
-| <a name="input_resource_keys"></a> [resource\_keys](#input\_resource\_keys) | The definition of any resource keys to be generated. | <pre>list(object({<br>    name           = string<br>    role           = optional(string, "Reader")<br>    service_id_crn = optional(string)<br>  }))</pre> | `[]` | no |
+| <a name="input_resource_keys"></a> [resource\_keys](#input\_resource\_keys) | The definition of any resource keys to be generated. Valid service roles are `Writer`, `Reader` and `Manager`. | <pre>list(object({<br>    name           = string<br>    role           = optional(string, "Reader")<br>    service_id_crn = optional(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Optional list of tags to be added to created resources | `list(string)` | `[]` | no |
 | <a name="input_self_service_enabled"></a> [self\_service\_enabled](#input\_self\_service\_enabled) | Set this to true to allow users to change password and edit user details. | `bool` | `false` | no |
 | <a name="input_signup_enabled"></a> [signup\_enabled](#input\_signup\_enabled) | Set this to true to allow users to signup. | `bool` | `false` | no |
-| <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Hyper Protect or Key Protect instance passed in var.existing\_kms\_instance\_guid. If set to 'false', a value must be passed for var.existing\_kms\_instance\_guid. No policy is created if var.kms\_encryption\_enabled is set to 'false'. No policy is created if var.kms\_encryption\_enabled is set to false. | `bool` | `false` | no |
+| <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Hyper Protect or Key Protect instance passed in var.existing\_kms\_instance\_guid. If set to 'false', a value must be passed for var.existing\_kms\_instance\_guid. No policy is created if var.kms\_encryption\_enabled is set to 'false'. | `bool` | `false` | no |
 | <a name="input_users"></a> [users](#input\_users) | List of users to add. | `list(string)` | `[]` | no |
 | <a name="input_welcome_enabled"></a> [welcome\_enabled](#input\_welcome\_enabled) | Set this to true to send welcome emails to the new users. | `bool` | `false` | no |
 

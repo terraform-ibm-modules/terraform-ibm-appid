@@ -6,18 +6,18 @@ variable "ibmcloud_api_key" {
 
 variable "region" {
   type        = string
-  description = "Region to provision all resources created by this DA"
+  description = "Region to provision all resources created by this solution."
   default     = "us-south"
 }
 
 variable "prefix" {
   type        = string
-  description = "Prefix to append to all resources created by this DA"
+  description = "Prefix to append to all resources created by this solution."
 }
 
 variable "resource_group" {
   type        = string
-  description = "An existing resource group name to use for this DA, if unset a new resource group will be created"
+  description = "An existing resource group name to use for this solution, if unset a new resource group will be created"
   default     = null
 }
 
@@ -53,8 +53,64 @@ variable "resource_keys" {
   default = []
 }
 
-variable "kms_encryption_enabled" {
+variable "is_idp_cloud_directory_active" {
+  description = "Set this to true to set IDP Cloud Directory active."
   type        = bool
-  description = "Set this to true to control the encryption keys used to encrypt the data that you store for AppID. If set to false, the data is encrypted by using randomly generated keys. For more info on securing data in AppID, see https://cloud.ibm.com/docs/appid?topic=appid-mng-data"
   default     = true
+}
+
+variable "is_mfa_active" {
+  description = "Set this to true to set MFA in IDP Cloud Directory active."
+  type        = bool
+  default     = true
+}
+
+variable "identity_confirm_access_mode" {
+  description = "Identity confirm access mode for Cloud Directory (CD). Allowed values are `FULL`, `RESTRICTIVE` and `OFF`."
+  type        = string
+  default     = "OFF"
+  validation {
+    condition     = contains(["FULL", "RESTRICTIVE", "OFF"], var.identity_confirm_access_mode)
+    error_message = "Allowed values for `identity_confirm_access_mode` are \"FULL\", \"RESTRICTIVE\" and \"OFF\"."
+  }
+}
+
+variable "identity_field" {
+  description = "Identity field for Cloud Directory (CD). Allowed values are `email` and `userName`."
+  type        = string
+  default     = "email"
+  validation {
+    condition     = contains(["email", "userName"], var.identity_field)
+    error_message = "Allowed values for `identity_field` are \"email\" and \"userName\"."
+  }
+}
+
+variable "reset_password_enabled" {
+  description = "Set this to true to enable password resets."
+  type        = bool
+  default     = false
+}
+
+variable "reset_password_notification_enabled" {
+  description = "Set this to true to enable password notifications."
+  type        = bool
+  default     = false
+}
+
+variable "signup_enabled" {
+  description = "Set this to true to allow users to signup."
+  type        = bool
+  default     = false
+}
+
+variable "self_service_enabled" {
+  description = "Set this to true to allow users to change password and edit user details."
+  type        = bool
+  default     = false
+}
+
+variable "welcome_enabled" {
+  description = "Set this to true to send welcome emails to the new users."
+  type        = bool
+  default     = false
 }

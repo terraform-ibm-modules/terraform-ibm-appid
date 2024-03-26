@@ -9,7 +9,7 @@ The following resources are provisioned by this example:
 - An IAM authorization policy for AppID instance to read from KMS instance.
 - An AppID instance and a resource key.
 - A Cloud Directory authentication with Multi-factor authentication (MFA) enabled.
-- Adds a user to the Cloud Directory, and generates random password for the user.
+- It takes list of users in and add them in the Cloud Directory. It generates random password for each user.
 - Creates an application, scopes and roles.
 - Assign roles to the users.
 

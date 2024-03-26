@@ -32,7 +32,7 @@ variable "resource_group_id" {
 }
 
 variable "resource_keys" {
-  description = "The definition of any resource keys to be generated."
+  description = "The definition of any resource keys to be generated. Valid service roles are `Writer`, `Reader` and `Manager`."
   type = list(object({
     name           = string
     role           = optional(string, "Reader")
@@ -56,7 +56,7 @@ variable "resource_tags" {
 
 variable "skip_iam_authorization_policy" {
   type        = bool
-  description = "Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Hyper Protect or Key Protect instance passed in var.existing_kms_instance_guid. If set to 'false', a value must be passed for var.existing_kms_instance_guid. No policy is created if var.kms_encryption_enabled is set to 'false'. No policy is created if var.kms_encryption_enabled is set to false."
+  description = "Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Hyper Protect or Key Protect instance passed in var.existing_kms_instance_guid. If set to 'false', a value must be passed for var.existing_kms_instance_guid. No policy is created if var.kms_encryption_enabled is set to 'false'."
   default     = false
 }
 
