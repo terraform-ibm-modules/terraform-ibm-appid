@@ -12,7 +12,6 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-const advancedExampleDir = "examples/advanced"
 const fscloudExampleDir = "examples/fscloud"
 const fscloudSolutionsDir = "solutions/fscloud"
 const basicExampleDir = "examples/basic"
@@ -52,17 +51,17 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		Prefix:       prefix,
 		Region:       validRegions[rand.Intn(len(validRegions))],
 		TerraformVars: map[string]interface{}{
-			"kms_key_crn":                permanentResources["kp_us_south_root_key_crn"],
-			"existing_kms_instance_guid": permanentResources["kp_us_south_guid"],
+			"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
+			"existing_kms_instance_guid": permanentResources["hpcs_south"],
 		},
 	})
 	return options
 }
 
-func TestRunAdvancedExample(t *testing.T) {
+func TestRunFSCloudExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "appid-adv", advancedExampleDir)
+	options := setupOptions(t, "appid-fs", fscloudExampleDir)
 
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
@@ -72,32 +71,13 @@ func TestRunAdvancedExample(t *testing.T) {
 func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "appid-upg", advancedExampleDir)
+	options := setupOptions(t, "appid-fs-upg", fscloudExampleDir)
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
 		assert.Nil(t, err, "This should not have errored")
 		assert.NotNil(t, output, "Expected some output")
 	}
-}
-
-func TestRunFSCloudExample(t *testing.T) {
-	t.Parallel()
-
-	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:      t,
-		TerraformDir: fscloudExampleDir,
-		Prefix:       "appid-fs",
-		Region:       validRegions[rand.Intn(len(validRegions))],
-		TerraformVars: map[string]interface{}{
-			"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
-			"existing_kms_instance_guid": permanentResources["hpcs_south"],
-		},
-	})
-
-	output, err := options.RunTestConsistency()
-	assert.Nil(t, err, "This should not have errored")
-	assert.NotNil(t, output, "Expected some output")
 }
 
 func TestRunFSCloudSolution(t *testing.T) {
@@ -107,7 +87,7 @@ func TestRunFSCloudSolution(t *testing.T) {
 		Testing:      t,
 		TerraformDir: fscloudSolutionsDir,
 		Region:       validRegions[rand.Intn(len(validRegions))],
-		Prefix:       "sol-appid",
+		Prefix:       "appid-sol",
 	})
 
 	options.TerraformVars = map[string]interface{}{
