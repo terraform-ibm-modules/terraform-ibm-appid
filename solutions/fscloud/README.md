@@ -5,7 +5,7 @@ This DA uses the [Profile for IBM Cloud Framework for Financial Services](https:
 The following resources are provisioned by this DA:
 
 - A new resource group if one is not passed in.
-- Creates serviceIds for "Reader", "Manager" and "Writer" roles.
+- Creates a serviceIds for a "Writer" role.
 - An IAM authorization policy for AppID instance to read from KMS instance.
 - An AppID instance and a resource key.
 - A Cloud Directory authentication with Multi-factor authentication (MFA) enabled.

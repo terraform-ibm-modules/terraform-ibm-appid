@@ -24,7 +24,6 @@ More information about the IBM AppID can be found [here](https://cloud.ibm.com/d
 * [Submodules](./modules)
     * [fscloud](./modules/fscloud)
 * [Examples](./examples)
-    * [Advanced example](./examples/advanced)
     * [Basic example](./examples/basic)
     * [Financial Services compliant example](./examples/fscloud)
 * [Contributing](#contributing)
