@@ -13,7 +13,10 @@ import (
 )
 
 const advancedExampleDir = "examples/advanced"
+const fscloudExampleDir = "examples/fscloud"
+const fscloudSolutionsDir = "solutions/fscloud"
 const basicExampleDir = "examples/basic"
+
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 
 // Current supported AppID region
@@ -76,4 +79,44 @@ func TestRunUpgradeExample(t *testing.T) {
 		assert.Nil(t, err, "This should not have errored")
 		assert.NotNil(t, output, "Expected some output")
 	}
+}
+
+func TestRunFSCloudExample(t *testing.T) {
+	t.Parallel()
+
+	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+		Testing:      t,
+		TerraformDir: fscloudExampleDir,
+		Prefix:       "appid-fs",
+		Region:       validRegions[rand.Intn(len(validRegions))],
+		TerraformVars: map[string]interface{}{
+			"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
+			"existing_kms_instance_guid": permanentResources["hpcs_south"],
+		},
+	})
+
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
+}
+
+func TestRunFSCloudSolution(t *testing.T) {
+	t.Parallel()
+
+	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
+		Testing:      t,
+		TerraformDir: fscloudSolutionsDir,
+		Region:       validRegions[rand.Intn(len(validRegions))],
+		Prefix:       "sol-appid",
+	})
+
+	options.TerraformVars = map[string]interface{}{
+		"ibmcloud_api_key":           options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
+		"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
+		"existing_kms_instance_guid": permanentResources["hpcs_south"],
+	}
+
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
 }

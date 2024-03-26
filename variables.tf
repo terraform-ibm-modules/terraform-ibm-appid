@@ -32,7 +32,7 @@ variable "resource_group_id" {
 }
 
 variable "resource_keys" {
-  description = "The definition of any resource keys to be generated"
+  description = "The definition of any resource keys to be generated."
   type = list(object({
     name           = string
     role           = optional(string, "Reader")
@@ -159,7 +159,7 @@ variable "welcome_enabled" {
 ########################################################################################################################
 
 variable "users" {
-  description = "Number of users to add."
+  description = "List of users to add."
   type        = list(string)
   default     = []
 }
