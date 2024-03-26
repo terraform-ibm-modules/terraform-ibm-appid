@@ -87,13 +87,13 @@ func TestRunFSCloudSolution(t *testing.T) {
 		Testing:      t,
 		TerraformDir: fscloudSolutionsDir,
 		Region:       validRegions[rand.Intn(len(validRegions))],
-		Prefix:       "appid-sol",
 	})
 
 	options.TerraformVars = map[string]interface{}{
 		"ibmcloud_api_key":           options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
 		"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
 		"existing_kms_instance_guid": permanentResources["hpcs_south"],
+		"prefix":                     "appid-sol",
 	}
 
 	output, err := options.RunTestConsistency()
