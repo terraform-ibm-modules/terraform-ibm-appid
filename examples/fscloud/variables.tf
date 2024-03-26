@@ -13,7 +13,7 @@ variable "region" {
 variable "prefix" {
   type        = string
   description = "Prefix to append to all resources created by this example"
-  default     = "appid-fs"
+  default     = "rajatapp-fs"
 }
 
 variable "resource_group" {
@@ -31,9 +31,11 @@ variable "resource_tags" {
 variable "kms_key_crn" {
   type        = string
   description = "The root key CRN of a Key Management Services like Key Protect or Hyper Protect Crypto Service (HPCS) that you want to use for disk encryption."
+  default     = "crn:v1:bluemix:public:hs-crypto:us-south:a/abac0df06b644a9cabc6e44f55b3880e:e6dce284-e80f-46e1-a3c1-830f7adff7a9:key:76170fae-4e0c-48c3-8ebe-326059ebb533"
 }
 
 variable "existing_kms_instance_guid" {
   description = "The GUID of the Hyper Protect or Key Protect instance in which the key specified in `kms_key_crn` is coming from."
   type        = string
+  default     = "e6dce284-e80f-46e1-a3c1-830f7adff7a9"
 }

@@ -159,11 +159,8 @@ No modules.
 | <a name="output_appid_name"></a> [appid\_name](#output\_appid\_name) | AppID instance name. |
 | <a name="output_dashboard_url"></a> [dashboard\_url](#output\_dashboard\_url) | AppID dashboard url. |
 | <a name="output_id"></a> [id](#output\_id) | AppID instance ID. |
-| <a name="output_manager_resource_key"></a> [manager\_resource\_key](#output\_manager\_resource\_key) | AppID service key for `Manager` role. |
-| <a name="output_reader_resource_key"></a> [reader\_resource\_key](#output\_reader\_resource\_key) | AppID service key for `Reader` role. |
 | <a name="output_tenant_id"></a> [tenant\_id](#output\_tenant\_id) | AppID instance guid, also called as tenant\_id. |
 | <a name="output_user_subjects"></a> [user\_subjects](#output\_user\_subjects) | The user's identifier. |
-| <a name="output_writer_resource_key"></a> [writer\_resource\_key](#output\_writer\_resource\_key) | AppID service key for `Writer` role. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 <!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
