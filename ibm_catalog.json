@@ -58,10 +58,10 @@
       ],
       "flavors": [
         {
-          "label": "fscloud",
-          "name": "fscloud",
+          "label": "secure",
+          "name": "secure",
           "install_type": "fullstack",
-          "working_directory": "solutions/fscloud",
+          "working_directory": "solutions/secure",
           "compliance": {
             "authority": "scc-v3",
             "profiles": [

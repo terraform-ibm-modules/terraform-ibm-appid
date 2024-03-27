@@ -10,21 +10,26 @@ variable "region" {
   default     = "us-south"
 }
 
-variable "prefix" {
-  type        = string
-  description = "Prefix to append to all resources created by this solution."
+variable "existing_resource_group" {
+  type        = bool
+  description = "Whether to use an existing resource group."
+  default     = false
 }
 
-variable "resource_group" {
+variable "resource_group_name" {
   type        = string
-  description = "An existing resource group name to use for this solution, if unset a new resource group will be created"
-  default     = null
+  description = "The name of a new or an existing resource group in which to provision Event Notifications resources to."
 }
 
 variable "resource_tags" {
   type        = list(string)
   description = "Optional list of tags to be added to created resources"
   default     = []
+}
+
+variable "appid_name" {
+  type        = string
+  description = "The name of the IBM AppID instance."
 }
 
 variable "kms_key_crn" {

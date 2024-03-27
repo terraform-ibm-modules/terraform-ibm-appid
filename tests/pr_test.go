@@ -13,7 +13,7 @@ import (
 )
 
 const fscloudExampleDir = "examples/fscloud"
-const fscloudSolutionsDir = "solutions/fscloud"
+const secureSolutionsDir = "solutions/secure"
 const basicExampleDir = "examples/basic"
 
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
@@ -68,12 +68,12 @@ func TestRunFSCloudExample(t *testing.T) {
 	assert.NotNil(t, output, "Expected some output")
 }
 
-func TestRunUpgradeFSCloudSolution(t *testing.T) {
+func TestRunUpgradeSecureSolution(t *testing.T) {
 	t.Parallel()
 
 	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
 		Testing:      t,
-		TerraformDir: fscloudSolutionsDir,
+		TerraformDir: secureSolutionsDir,
 		Prefix:       "appid-fs-upg",
 		Region:       validRegions[rand.Intn(len(validRegions))],
 	})
@@ -83,6 +83,7 @@ func TestRunUpgradeFSCloudSolution(t *testing.T) {
 		"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
 		"existing_kms_instance_guid": permanentResources["hpcs_south"],
 		"prefix":                     options.Prefix,
+		"resource_group_name":        options.Prefix + "rg",
 	}
 
 	output, err := options.RunTestUpgrade()
@@ -92,12 +93,12 @@ func TestRunUpgradeFSCloudSolution(t *testing.T) {
 	}
 }
 
-func TestRunFSCloudSolution(t *testing.T) {
+func TestRunSecureSolution(t *testing.T) {
 	t.Parallel()
 
 	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
 		Testing:      t,
-		TerraformDir: fscloudSolutionsDir,
+		TerraformDir: secureSolutionsDir,
 		Prefix:       "appid-sol",
 		Region:       validRegions[rand.Intn(len(validRegions))],
 	})
@@ -107,6 +108,7 @@ func TestRunFSCloudSolution(t *testing.T) {
 		"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
 		"existing_kms_instance_guid": permanentResources["hpcs_south"],
 		"prefix":                     options.Prefix,
+		"resource_group_name":        options.Prefix + "rg",
 	}
 
 	output, err := options.RunTestConsistency()

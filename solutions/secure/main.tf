@@ -3,11 +3,10 @@
 ########################################################################################################################
 
 module "resource_group" {
-  source  = "terraform-ibm-modules/resource-group/ibm"
-  version = "1.1.4"
-  # if an existing resource group is not set (null) create a new one using prefix
-  resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
-  existing_resource_group_name = var.resource_group
+  source                       = "terraform-ibm-modules/resource-group/ibm"
+  version                      = "1.1.4"
+  resource_group_name          = var.existing_resource_group == false ? var.resource_group_name : null
+  existing_resource_group_name = var.existing_resource_group == true ? var.resource_group_name : null
 }
 
 ########################################################################################################################
@@ -16,7 +15,7 @@ module "resource_group" {
 
 module "appid" {
   source                              = "../../modules/fscloud"
-  appid_name                          = "${var.prefix}-appid"
+  appid_name                          = var.appid_name
   resource_group_id                   = module.resource_group.resource_group_id
   region                              = var.region
   resource_tags                       = var.resource_tags
