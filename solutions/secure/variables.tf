@@ -18,7 +18,7 @@ variable "existing_resource_group" {
 
 variable "resource_group_name" {
   type        = string
-  description = "The name of a new or an existing resource group in which to provision Event Notifications resources to."
+  description = "The name of a new or an existing resource group in which to provision AppID resources to."
 }
 
 variable "resource_tags" {
