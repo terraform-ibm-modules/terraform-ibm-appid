@@ -17,13 +17,17 @@ This module creates an IBM AppID instance and a resource key.
 
 More information about the IBM AppID can be found [here](https://cloud.ibm.com/docs/appid?topic=appid-getting-started)
 
+**Note**: This module creates random password for the new users. Set `self_service_enabled` to `true` to give users permission to change their passwords.
+
 <!-- Below content is automatically populated via pre-commit hook -->
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview
 * [terraform-ibm-appid](#terraform-ibm-appid)
+* [Submodules](./modules)
+    * [fscloud](./modules/fscloud)
 * [Examples](./examples)
-    * [Advanced example](./examples/advanced)
     * [Basic example](./examples/basic)
+    * [Financial Services compliant example](./examples/fscloud)
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
 
@@ -102,6 +106,7 @@ statement instead the previous block.
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0, <1.7.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.49.0, < 2.0.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.6.0, <4.0.0 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.8.0, <1.0.0 |
 
 ### Modules
@@ -112,9 +117,13 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [ibm_appid_cloud_directory_user.user](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/appid_cloud_directory_user) | resource |
+| [ibm_appid_idp_cloud_directory.cd](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/appid_idp_cloud_directory) | resource |
+| [ibm_appid_mfa.mf](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/appid_mfa) | resource |
 | [ibm_iam_authorization_policy.policy](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_resource_instance.appid](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_instance) | resource |
 | [ibm_resource_key.resource_keys](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_key) | resource |
+| [random_password.password](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
 | [time_sleep.wait_for_authorization_policy](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 
 ### Inputs
@@ -123,22 +132,35 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_appid_name"></a> [appid\_name](#input\_appid\_name) | Name of the AppID resource. | `string` | n/a | yes |
 | <a name="input_existing_kms_instance_guid"></a> [existing\_kms\_instance\_guid](#input\_existing\_kms\_instance\_guid) | The GUID of the Hyper Protect or Key Protect instance in which the key specified in `kms_key_crn` is coming from. Only required if `skip_iam_authorization_policy` is 'false'. | `string` | `null` | no |
+| <a name="input_identity_confirm_access_mode"></a> [identity\_confirm\_access\_mode](#input\_identity\_confirm\_access\_mode) | Identity confirm access mode for Cloud Directory (CD). Allowed values are `FULL`, `RESTRICTIVE` and `OFF`. | `string` | `"OFF"` | no |
+| <a name="input_identity_field"></a> [identity\_field](#input\_identity\_field) | Identity field for Cloud Directory (CD). Allowed values are `email` and `userName`. | `string` | `"email"` | no |
+| <a name="input_is_idp_cloud_directory_active"></a> [is\_idp\_cloud\_directory\_active](#input\_is\_idp\_cloud\_directory\_active) | Set this to true to set IDP Cloud Directory active. | `bool` | `true` | no |
+| <a name="input_is_mfa_active"></a> [is\_mfa\_active](#input\_is\_mfa\_active) | Set this to true to set MFA in IDP Cloud Directory active. | `bool` | `true` | no |
 | <a name="input_kms_encryption_enabled"></a> [kms\_encryption\_enabled](#input\_kms\_encryption\_enabled) | Set this to true to control the encryption keys used to encrypt the data that you store for AppID. If set to false, the data is encrypted by using randomly generated keys. For more info on securing data in AppID, see https://cloud.ibm.com/docs/appid?topic=appid-mng-data | `bool` | `false` | no |
 | <a name="input_kms_key_crn"></a> [kms\_key\_crn](#input\_kms\_key\_crn) | The root key CRN of a Key Management Services like Key Protect or Hyper Protect Crypto Service (HPCS) that you want to use for disk encryption. Only used if `kms_encryption_enabled` is set to true. | `string` | `null` | no |
 | <a name="input_plan"></a> [plan](#input\_plan) | Plan for the AppID resource. | `string` | `"graduated-tier"` | no |
 | <a name="input_region"></a> [region](#input\_region) | Region for the AppID resource. | `string` | n/a | yes |
+| <a name="input_reset_password_enabled"></a> [reset\_password\_enabled](#input\_reset\_password\_enabled) | Set this to true to enable password resets. | `bool` | `false` | no |
+| <a name="input_reset_password_notification_enabled"></a> [reset\_password\_notification\_enabled](#input\_reset\_password\_notification\_enabled) | Set this to true to enable password notifications. | `bool` | `false` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | Resource group ID for the AppID resources. | `string` | n/a | yes |
-| <a name="input_resource_keys"></a> [resource\_keys](#input\_resource\_keys) | The definition of any resource keys to be generated | <pre>list(object({<br>    name           = string<br>    role           = optional(string, "Viewer")<br>    service_id_crn = optional(string)<br>  }))</pre> | `[]` | no |
+| <a name="input_resource_keys"></a> [resource\_keys](#input\_resource\_keys) | The definition of any resource keys to be generated. Valid service roles are `Writer`, `Reader` and `Manager`. | <pre>list(object({<br>    name           = string<br>    role           = optional(string, "Reader")<br>    service_id_crn = optional(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Optional list of tags to be added to created resources | `list(string)` | `[]` | no |
-| <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Hyper Protect or Key Protect instance passed in var.existing\_kms\_instance\_guid. If set to 'false', a value must be passed for var.existing\_kms\_instance\_guid. No policy is created if var.kms\_encryption\_enabled is set to 'false'. No policy is created if var.kms\_encryption\_enabled is set to false. | `bool` | `false` | no |
+| <a name="input_self_service_enabled"></a> [self\_service\_enabled](#input\_self\_service\_enabled) | Set this to true to allow users to change password and edit user details. | `bool` | `false` | no |
+| <a name="input_signup_enabled"></a> [signup\_enabled](#input\_signup\_enabled) | Set this to true to allow users to signup. | `bool` | `false` | no |
+| <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Hyper Protect or Key Protect instance passed in var.existing\_kms\_instance\_guid. If set to 'false', a value must be passed for var.existing\_kms\_instance\_guid. No policy is created if var.kms\_encryption\_enabled is set to 'false'. | `bool` | `false` | no |
+| <a name="input_users"></a> [users](#input\_users) | List of users to add. | `list(string)` | `[]` | no |
+| <a name="input_welcome_enabled"></a> [welcome\_enabled](#input\_welcome\_enabled) | Set this to true to send welcome emails to the new users. | `bool` | `false` | no |
 
 ### Outputs
 
 | Name | Description |
 |------|-------------|
+| <a name="output_appid_crn"></a> [appid\_crn](#output\_appid\_crn) | AppID instance CRN. |
+| <a name="output_appid_name"></a> [appid\_name](#output\_appid\_name) | AppID instance name. |
 | <a name="output_dashboard_url"></a> [dashboard\_url](#output\_dashboard\_url) | AppID dashboard url. |
 | <a name="output_id"></a> [id](#output\_id) | AppID instance ID. |
 | <a name="output_tenant_id"></a> [tenant\_id](#output\_tenant\_id) | AppID instance guid, also called as tenant\_id. |
+| <a name="output_user_subjects"></a> [user\_subjects](#output\_user\_subjects) | The user's identifier. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 <!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->

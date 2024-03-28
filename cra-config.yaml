@@ -1,9 +1,11 @@
 # More info about this file at https://github.com/terraform-ibm-modules/common-pipeline-assets/blob/main/.github/workflows/terraform-test-pipeline.md#cra-config-yaml
 version: "v1"
 CRA_TARGETS:
-  - CRA_TARGET: "examples/advanced" # Target directory for CRA scan. If not provided, the CRA Scan will not be run.
+  - CRA_TARGET: "solutions/secure" # Target directory for CRA scan. If not provided, the CRA Scan will not be run.
     CRA_IGNORE_RULES_FILE: "cra-tf-validate-ignore-rules.json" # CRA Ignore file to use. If not provided, it checks the repo root directory for `cra-tf-validate-ignore-rules.json`
     PROFILE_ID: "0e6e7b5a-817d-4344-ab6f-e5d7a9c49520" # SCC profile ID (currently set to the FSCloud 1.4.0 profile).
     CRA_ENVIRONMENT_VARIABLES:
-      TF_VAR_kms_key_crn: "crn:v1:bluemix:public:kms:us-south:a/9f9af00a96104f49b6509aa715f9d6a5:44f9c10d-99f5-4547-9e9f-2a1c84b5f0a4:key:f6c9f6d0-92f6-437a-b97c-4b617cb3d320"
-      TF_VAR_existing_kms_instance_guid: "44f9c10d-99f5-4547-9e9f-2a1c84b5f0a4"
+      TF_VAR_kms_key_crn: "crn:v1:bluemix:public:hs-crypto:us-south:a/abac0df06b644a9cabc6e44f55b3880e:e6dce284-e80f-46e1-a3c1-830f7adff7a9:key:76170fae-4e0c-48c3-8ebe-326059ebb533"
+      TF_VAR_existing_kms_instance_guid: "e6dce284-e80f-46e1-a3c1-830f7adff7a9"
+      TF_VAR_resource_group_name: "test"
+      TF_VAR_appid_name: "appid"

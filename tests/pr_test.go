@@ -4,6 +4,7 @@ package test
 import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"log"
+	"math/rand"
 	"os"
 	"testing"
 
@@ -11,9 +12,24 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-const advancedExampleDir = "examples/advanced"
+const fscloudExampleDir = "examples/fscloud"
+const secureSolutionsDir = "solutions/secure"
 const basicExampleDir = "examples/basic"
+
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
+
+// Current supported AppID region
+var validRegions = []string{
+	"jp-osa",
+	"jp-tok",
+	"us-east",
+	"au-syd",
+	"br-sao",
+	"ca-tor",
+	"eu-de",
+	"eu-gb",
+	"us-south",
+}
 
 var permanentResources map[string]interface{}
 
@@ -33,32 +49,69 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		Testing:      t,
 		TerraformDir: dir,
 		Prefix:       prefix,
+		Region:       validRegions[rand.Intn(len(validRegions))],
 		TerraformVars: map[string]interface{}{
-			"kms_key_crn":                permanentResources["kp_us_south_root_key_crn"],
-			"existing_kms_instance_guid": permanentResources["kp_us_south_guid"],
+			"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
+			"existing_kms_instance_guid": permanentResources["hpcs_south"],
 		},
 	})
 	return options
 }
 
-func TestRunAdvancedExample(t *testing.T) {
+func TestRunFSCloudExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "appid-adv", advancedExampleDir)
+	options := setupOptions(t, "appid-fs", fscloudExampleDir)
 
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
 }
 
-func TestRunUpgradeExample(t *testing.T) {
+func TestRunUpgradeSecureSolution(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "appid-upg", advancedExampleDir)
+	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
+		Testing:      t,
+		TerraformDir: secureSolutionsDir,
+		Prefix:       "appid-fs-upg",
+		Region:       validRegions[rand.Intn(len(validRegions))],
+	})
+
+	options.TerraformVars = map[string]interface{}{
+		"ibmcloud_api_key":           options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
+		"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
+		"existing_kms_instance_guid": permanentResources["hpcs_south"],
+		"appid_name":                 options.Prefix,
+		"resource_group_name":        options.Prefix + "rg",
+	}
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
 		assert.Nil(t, err, "This should not have errored")
 		assert.NotNil(t, output, "Expected some output")
 	}
+}
+
+func TestRunSecureSolution(t *testing.T) {
+	t.Parallel()
+
+	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
+		Testing:      t,
+		TerraformDir: secureSolutionsDir,
+		Prefix:       "appid-sol",
+		Region:       validRegions[rand.Intn(len(validRegions))],
+	})
+
+	options.TerraformVars = map[string]interface{}{
+		"ibmcloud_api_key":           options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
+		"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
+		"existing_kms_instance_guid": permanentResources["hpcs_south"],
+		"appid_name":                 options.Prefix,
+		"resource_group_name":        options.Prefix + "-rg",
+	}
+
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
 }

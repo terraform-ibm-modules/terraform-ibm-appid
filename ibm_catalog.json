@@ -1,0 +1,129 @@
+{
+  "products": [
+    {
+      "name": "deploy-arch-ibm-appid",
+      "label": "IBM AppID",
+      "product_kind": "solution",
+      "tags": [
+        "ibm_created",
+        "target_terraform",
+        "terraform",
+        "security",
+        "solution",
+        "application_modernization",
+        "digital_transformation",
+        "integration"
+      ],
+      "keywords": [
+        "IaC",
+        "infrastructure as code",
+        "terraform",
+        "solution",
+        "appid"
+      ],
+      "short_description": "Configures an IBM Cloud App ID instance.",
+      "long_description": "Creates the IBM AppID instance. It also gives option to setup Cloud Directory authentication and create users for it.",
+      "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-appid/blob/main/solutions/fscloud/README.md",
+      "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-appid/main/images/appid.svg",
+      "provider_name": "IBM",
+      "features": [
+        {
+          "description": "Creates an IBM AppID instance.",
+          "title": "Creates an IBM AppID instance with either `graduate-tier` or `lite` plan."
+        },
+        {
+          "description": "Creates resource keys.",
+          "title": "Create resource keys for the `service` roles: 'Writer', 'Manager', 'Reader'."
+        },
+        {
+          "description": "Creates an authorization policy.",
+          "title": "Creates an IBM IAM authorization policy between AppID in the given resource group and an existing IBM Key Protect or Hyper Protect Crypto Service (HPCS) instance."
+        },
+        {
+          "description": "Secures data in the AppID.",
+          "title": "Secures data in the AppID by encrypting it with "
+        },
+        {
+          "description": "A CD authentication with MFA enabled.",
+          "title": "A Cloud Directory with Multi-factor authentication (MFA) enabled."
+        },
+        {
+          "description": "Adds a user to the CD.",
+          "title": "Adds a user to the Cloud Directory, and generates random password for the user."
+        },
+        {
+          "description": "Creates an application, scopes and roles.",
+          "title": "Creates an application, scopes and roles. Assign roles to the users."
+        }
+      ],
+      "flavors": [
+        {
+          "label": "secure",
+          "name": "secure",
+          "install_type": "fullstack",
+          "working_directory": "solutions/secure",
+          "compliance": {
+            "authority": "scc-v3",
+            "profiles": [
+              {
+                "profile_name": "IBM Cloud Framework for Financial Services",
+                "profile_version": "1.5.0"
+              }
+            ]
+          },
+          "iam_permissions": [
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+              ],
+              "service_name": "appid"
+            }
+          ],
+          "architecture": {
+            "descriptions": "",
+            "features": [
+              {
+                "title": "Creates an IBM AppID instance.",
+                "description": "Yes"
+              },
+              {
+                "title": "Creates resource keys.",
+                "description": "Yes"
+              },
+              {
+                "title": "Creates an authorization policy.",
+                "description": "Yes"
+              },
+              {
+                "title": "Secures data in the AppID.",
+                "description": "Yes"
+              },
+              {
+                "title": "A CD authentication with MFA enabled.",
+                "description": "Yes"
+              },
+              {
+                "title": "Adds a user to the CD.",
+                "description": "Yes"
+              },
+              {
+                "title": "Creates an application, scopes and roles.",
+                "description": "Yes"
+              }
+            ],
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "AppID reference architecture",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-appid/main/reference-architecture/appid.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "AppID instance installation in the IBM Cloud account."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

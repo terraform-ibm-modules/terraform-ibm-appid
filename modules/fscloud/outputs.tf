@@ -17,6 +17,11 @@ output "dashboard_url" {
   value       = module.appid.dashboard_url
 }
 
+output "user_subjects" {
+  description = "The user's identifier."
+  value       = module.appid.user_subjects
+}
+
 output "appid_name" {
   description = "AppID instance name."
   value       = module.appid.appid_name
