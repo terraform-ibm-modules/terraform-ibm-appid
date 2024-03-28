@@ -80,10 +80,10 @@ func TestRunUpgradeSecureSolution(t *testing.T) {
 
 	options.TerraformVars = map[string]interface{}{
 		"ibmcloud_api_key":           options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
-		"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
+		"existing_kms_key_crn":       permanentResources["hpcs_south_root_key_crn"],
 		"existing_kms_instance_guid": permanentResources["hpcs_south"],
 		"appid_name":                 options.Prefix,
-		"resource_group_name":        options.Prefix + "rg",
+		"resource_group_name":        options.Prefix + "-rg",
 	}
 
 	output, err := options.RunTestUpgrade()
@@ -105,7 +105,7 @@ func TestRunSecureSolution(t *testing.T) {
 
 	options.TerraformVars = map[string]interface{}{
 		"ibmcloud_api_key":           options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
-		"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
+		"existing_kms_key_crn":       permanentResources["hpcs_south_root_key_crn"],
 		"existing_kms_instance_guid": permanentResources["hpcs_south"],
 		"appid_name":                 options.Prefix,
 		"resource_group_name":        options.Prefix + "-rg",
