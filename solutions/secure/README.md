@@ -6,6 +6,7 @@ The following resources are provisioned by this DA:
 
 - A new resource group if one is not passed in.
 - Creates a serviceIds for a "Writer" role.
+- Optionally, creates KMS root key for AppID.
 - An IAM authorization policy for AppID instance to read from KMS instance.
 - An AppID instance.
 - Optionally, supports creating resource keys.
