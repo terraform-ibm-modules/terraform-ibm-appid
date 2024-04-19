@@ -27,6 +27,8 @@ module "appid" {
   resource_tags              = var.resource_tags
   kms_key_crn                = var.kms_key_crn
   existing_kms_instance_guid = var.existing_kms_instance_guid
+  # for the sake of this example, setting this to false - should be set to true to enable MFA
+  is_mfa_active = false
   resource_keys = [{
     name           = "${var.prefix}-writer"
     role           = "Writer"
