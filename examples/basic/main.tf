@@ -21,4 +21,6 @@ module "appid" {
   resource_group_id      = module.resource_group.resource_group_id
   resource_tags          = var.resource_tags
   kms_encryption_enabled = false
+  # for the sake of this example, setting this to false
+  is_mfa_active          = false
 }
