@@ -10,7 +10,7 @@ terraform {
     # tflint-ignore: terraform_unused_required_providers
     time = {
       source  = "hashicorp/time"
-      version = ">= 0.11.2, < 1.0.0"
+      version = ">= 0.12.0, < 1.0.0"
     }
     # tflint-ignore: terraform_unused_required_providers
     random = {
