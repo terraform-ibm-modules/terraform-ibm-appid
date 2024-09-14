@@ -5,17 +5,17 @@ terraform {
   required_providers {
     ibm = {
       source  = "IBM-Cloud/ibm"
-      version = "1.69.0"
+      version = "1.69.2"
     }
     # tflint-ignore: terraform_unused_required_providers
     time = {
       source  = "hashicorp/time"
-      version = ">= 0.12.0, < 1.0.0"
+      version = ">= 0.12.1, < 1.0.0"
     }
     # tflint-ignore: terraform_unused_required_providers
     random = {
       source  = "hashicorp/random"
-      version = ">= 3.6.2, < 4.0.0"
+      version = ">= 3.6.3, < 4.0.0"
     }
   }
 }
