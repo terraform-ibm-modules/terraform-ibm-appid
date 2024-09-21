@@ -60,7 +60,7 @@ No resources.
 | <a name="input_reset_password_enabled"></a> [reset\_password\_enabled](#input\_reset\_password\_enabled) | Set this to true to enable password resets. | `bool` | `false` | no |
 | <a name="input_reset_password_notification_enabled"></a> [reset\_password\_notification\_enabled](#input\_reset\_password\_notification\_enabled) | Set this to true to enable password notifications. | `bool` | `false` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | ID of resource group to use when creating the AppID instance. | `string` | n/a | yes |
-| <a name="input_resource_keys"></a> [resource\_keys](#input\_resource\_keys) | The definition of any resource keys to be generated. | <pre>list(object({<br>    name           = string<br>    role           = optional(string, "Reader")<br>    service_id_crn = optional(string)<br>  }))</pre> | `[]` | no |
+| <a name="input_resource_keys"></a> [resource\_keys](#input\_resource\_keys) | The definition of any resource keys to be generated. | <pre>list(object({<br/>    name           = string<br/>    role           = optional(string, "Reader")<br/>    service_id_crn = optional(string)<br/>  }))</pre> | `[]` | no |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Optional list of tags to be added to created resources | `list(string)` | `[]` | no |
 | <a name="input_self_service_enabled"></a> [self\_service\_enabled](#input\_self\_service\_enabled) | Set this to true to allow users to change password and edit user details. | `bool` | `false` | no |
 | <a name="input_signup_enabled"></a> [signup\_enabled](#input\_signup\_enabled) | Set this to true to allow users to signup. | `bool` | `false` | no |
