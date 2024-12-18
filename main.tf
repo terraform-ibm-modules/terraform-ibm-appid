@@ -1,4 +1,5 @@
-module "crn_parser" {
+module "kms_key_crn_parser" {
+  count   = var.kms_key_crn != null ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
   version = "1.1.0"
   crn     = var.kms_key_crn
@@ -13,9 +14,9 @@ locals {
   validate_kms_values = !var.kms_encryption_enabled && (var.existing_kms_instance_guid != null || var.kms_key_crn != null) ? tobool("When passing values for var.existing_kms_instance_guid or/and var.kms_key_crn, you must set var.kms_encryption_enabled to true. Otherwise unset them to use default encryption") : true
   # tflint-ignore: terraform_unused_declarations
   validate_kms_vars = var.kms_encryption_enabled && (var.existing_kms_instance_guid == null || var.kms_key_crn == null) ? tobool("When setting var.kms_encryption_enabled to true, a value must be passed for var.existing_kms_instance_guid and var.kms_key_crn") : true
-  kms_service       = module.crn_parser.service_name
-  kms_account_id    = module.crn_parser.account_id
-  kms_key_id        = module.crn_parser.resource
+  kms_service       = var.kms_key_crn != null ? module.kms_key_crn_parser[0].service_name : null
+  kms_account_id    = var.kms_key_crn != null ? module.kms_key_crn_parser[0].account_id : null
+  kms_key_id        = var.kms_key_crn != null ? module.kms_key_crn_parser[0].resource : null
 
 
   parameters_enabled = var.kms_encryption_enabled && var.existing_kms_instance_guid != null && var.kms_key_crn != null ? true : false
