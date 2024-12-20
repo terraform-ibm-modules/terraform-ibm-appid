@@ -111,7 +111,9 @@ statement instead the previous block.
 
 ### Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_kms_key_crn_parser"></a> [kms\_key\_crn\_parser](#module\_kms\_key\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.1.0 |
 
 ### Resources
 
