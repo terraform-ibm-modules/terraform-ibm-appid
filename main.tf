@@ -30,7 +30,7 @@ resource "ibm_iam_authorization_policy" "policy" {
   count                    = (var.kms_encryption_enabled && !var.skip_iam_authorization_policy) ? 1 : 0
   source_service_name      = "appid"
   source_resource_group_id = var.resource_group_id
-  description              = "Allow all AppID instances in the given resource group reader access to KMS instance ${var.existing_kms_instance_guid}"
+  description              = "Allow all AppID instances in the given resource group ${var.resource_group_id} to read the ${local.kms_service} key ${local.kms_key_id} from instance ${var.existing_kms_instance_guid}"
   roles = [
     "Reader"
   ]
