@@ -64,6 +64,20 @@ variable "kms_encryption_enabled" {
   type        = bool
   description = "Set this to true to control the encryption keys used to encrypt the data that you store for AppID. If set to false, the data is encrypted by using randomly generated keys. For more info on securing data in AppID, see https://cloud.ibm.com/docs/appid?topic=appid-mng-data"
   default     = false
+  validation {
+    condition     = var.kms_encryption_enabled && var.plan != "graduated-tier" ? false : true
+    error_message = "kms encryption is only supported for graduated-tier plan"
+  }
+
+  validation {
+    condition     = !var.kms_encryption_enabled && (var.existing_kms_instance_guid != null || var.kms_key_crn != null) ? false : true
+    error_message = "When passing values for var.existing_kms_instance_guid or/and var.kms_key_crn, you must set var.kms_encryption_enabled to true. Otherwise unset them to use default encryption"
+  }
+
+  validation {
+    condition     = var.kms_encryption_enabled && (var.existing_kms_instance_guid == null || var.kms_key_crn == null) ? false : true
+    error_message = "When setting var.kms_encryption_enabled to true, a value must be passed for var.existing_kms_instance_guid and var.kms_key_crn"
+  }
 }
 
 variable "kms_key_crn" {
@@ -85,6 +99,10 @@ variable "existing_kms_instance_guid" {
   description = "The GUID of the Hyper Protect or Key Protect instance in which the key specified in `kms_key_crn` is coming from. Only required if `skip_iam_authorization_policy` is 'false'."
   type        = string
   default     = null
+  validation {
+    condition     = var.kms_encryption_enabled && !var.skip_iam_authorization_policy && var.existing_kms_instance_guid == null ? false : true
+    error_message = "When var.skip_iam_authorization_policy is set to false, and var.kms_encryption_enabled to true, a value must be passed for var.existing_kms_instance_guid in order to create the auth policy."
+  }
 }
 
 ########################################################################################################################

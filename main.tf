@@ -6,17 +6,9 @@ module "kms_key_crn_parser" {
 }
 
 locals {
-  # tflint-ignore: terraform_unused_declarations
-  validate_kms_plan = var.kms_encryption_enabled && var.plan != "graduated-tier" ? tobool("kms encryption is only supported for graduated-tier plan") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_auth_policy = var.kms_encryption_enabled && !var.skip_iam_authorization_policy && var.existing_kms_instance_guid == null ? tobool("When var.skip_iam_authorization_policy is set to false, and var.kms_encryption_enabled to true, a value must be passed for var.existing_kms_instance_guid in order to create the auth policy.") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_kms_values = !var.kms_encryption_enabled && (var.existing_kms_instance_guid != null || var.kms_key_crn != null) ? tobool("When passing values for var.existing_kms_instance_guid or/and var.kms_key_crn, you must set var.kms_encryption_enabled to true. Otherwise unset them to use default encryption") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_kms_vars = var.kms_encryption_enabled && (var.existing_kms_instance_guid == null || var.kms_key_crn == null) ? tobool("When setting var.kms_encryption_enabled to true, a value must be passed for var.existing_kms_instance_guid and var.kms_key_crn") : true
-  kms_service       = var.kms_key_crn != null ? module.kms_key_crn_parser[0].service_name : null
-  kms_account_id    = var.kms_key_crn != null ? module.kms_key_crn_parser[0].account_id : null
-  kms_key_id        = var.kms_key_crn != null ? module.kms_key_crn_parser[0].resource : null
+  kms_service    = var.kms_key_crn != null ? module.kms_key_crn_parser[0].service_name : null
+  kms_account_id = var.kms_key_crn != null ? module.kms_key_crn_parser[0].account_id : null
+  kms_key_id     = var.kms_key_crn != null ? module.kms_key_crn_parser[0].resource : null
 
 
   parameters_enabled = var.kms_encryption_enabled && var.existing_kms_instance_guid != null && var.kms_key_crn != null ? true : false
