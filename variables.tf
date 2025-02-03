@@ -100,8 +100,8 @@ variable "existing_kms_instance_guid" {
   type        = string
   default     = null
   validation {
-    condition     = var.kms_encryption_enabled && !var.skip_iam_authorization_policy && var.existing_kms_instance_guid == null ? false : true
-    error_message = "When var.skip_iam_authorization_policy is set to false, and var.kms_encryption_enabled to true, a value must be passed for var.existing_kms_instance_guid in order to create the auth policy."
+    condition     = !var.skip_iam_authorization_policy && var.existing_kms_instance_guid == null ? false : true
+    error_message = "When var.skip_iam_authorization_policy is set to false, a value must be passed for var.existing_kms_instance_guid in order to create the auth policy."
   }
 }
 
