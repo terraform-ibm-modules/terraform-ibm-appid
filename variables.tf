@@ -56,7 +56,7 @@ variable "resource_tags" {
 
 variable "skip_iam_authorization_policy" {
   type        = bool
-  description = "Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Hyper Protect or Key Protect instance passed in var.existing_kms_instance_guid. If set to 'false', a value must be passed for var.existing_kms_instance_guid. No policy is created if var.kms_encryption_enabled is set to 'false'."
+  description = "Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Hyper Protect or Key Protect instance passed in var.existing_kms_instance_guid. If set to 'false', a value must be passed for var.existing_kms_instance_guid."
   default     = false
 }
 
@@ -67,16 +67,6 @@ variable "kms_encryption_enabled" {
   validation {
     condition     = var.kms_encryption_enabled && var.plan != "graduated-tier" ? false : true
     error_message = "kms encryption is only supported for graduated-tier plan"
-  }
-
-  validation {
-    condition     = !var.kms_encryption_enabled && (var.existing_kms_instance_guid != null || var.kms_key_crn != null) ? false : true
-    error_message = "When passing values for var.existing_kms_instance_guid or/and var.kms_key_crn, you must set var.kms_encryption_enabled to true. Otherwise unset them to use default encryption"
-  }
-
-  validation {
-    condition     = var.kms_encryption_enabled && (var.existing_kms_instance_guid == null || var.kms_key_crn == null) ? false : true
-    error_message = "When setting var.kms_encryption_enabled to true, a value must be passed for var.existing_kms_instance_guid and var.kms_key_crn"
   }
 }
 
@@ -93,6 +83,16 @@ variable "kms_key_crn" {
     ])
     error_message = "Value must be the root key CRN from either the Key Protect or Hyper Protect Crypto Service (HPCS)."
   }
+
+  validation {
+    condition     = var.kms_key_crn != null && var.existing_kms_instance_guid == null ? false : true
+    error_message = "When setting var.kms_key_crn , a value must be passed for var.existing_kms_instance_guid"
+  }
+
+  validation {
+    condition     = var.kms_encryption_enabled && var.kms_key_crn == null ? false : true
+    error_message = "When setting var.kms_encryption_enabled to true, a value must be passed for var.kms_key_crn"
+  }
 }
 
 variable "existing_kms_instance_guid" {
@@ -102,6 +102,11 @@ variable "existing_kms_instance_guid" {
   validation {
     condition     = !var.skip_iam_authorization_policy && var.existing_kms_instance_guid == null ? false : true
     error_message = "When var.skip_iam_authorization_policy is set to false, a value must be passed for var.existing_kms_instance_guid in order to create the auth policy."
+  }
+
+  validation {
+    condition     = var.kms_encryption_enabled && var.existing_kms_instance_guid == null ? false : true
+    error_message = "When setting var.kms_encryption_enabled to true, a value must be passed for var.existing_kms_instance_guid"
   }
 }
 
