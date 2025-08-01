@@ -4,7 +4,7 @@
 
 module "resource_group" {
   source                       = "terraform-ibm-modules/resource-group/ibm"
-  version                      = "1.1.6"
+  version                      = "1.3.0"
   resource_group_name          = var.existing_resource_group == false ? var.resource_group_name : null
   existing_resource_group_name = var.existing_resource_group == true ? var.resource_group_name : null
 }
@@ -20,7 +20,7 @@ module "kms" {
   }
   count                       = var.existing_kms_key_crn != null ? 0 : 1 # no need to create any KMS resources if passing an existing key.
   source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                     = "4.14.2"
+  version                     = "4.22.0"
   create_key_protect_instance = false
   region                      = var.kms_region
   existing_kms_instance_guid  = var.existing_kms_instance_guid
