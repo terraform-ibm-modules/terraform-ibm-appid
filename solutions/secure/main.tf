@@ -10,20 +10,43 @@ module "resource_group" {
 }
 
 #######################################################################################################################
+# KMS Instance Parser
+#######################################################################################################################
+
+# parse KMS details from the existing KMS instance CRN
+module "existing_kms_crn_parser" {
+  count   = var.existing_kms_instance_crn != null ? 1 : 0
+  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
+  version = "1.4.2"
+  crn     = var.existing_kms_instance_crn
+}
+
+module "existing_kms_key_crn_parser" {
+  count   = var.existing_kms_key_crn != null ? 1 : 0
+  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
+  version = "1.4.2"
+  crn     = var.existing_kms_key_crn
+}
+
+#######################################################################################################################
 # KMS Key
 #######################################################################################################################
+
+locals {
+  kms_instance_guid = var.existing_kms_instance_crn != null ? module.existing_kms_crn_parser[0].service_instance : var.existing_kms_key_crn != null ? module.existing_kms_key_crn_parser[0].service_instance : null
+}
 
 # KMS root key for AppID
 module "kms" {
   providers = {
     ibm = ibm.kms
   }
-  count                       = var.existing_kms_key_crn != null ? 0 : 1 # no need to create any KMS resources if passing an existing key.
+  count                       = var.existing_kms_instance_crn != null ? 0 : 1 # no need to create any KMS resources if passing an existing key.
   source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
   version                     = "5.5.36"
   create_key_protect_instance = false
   region                      = var.kms_region
-  existing_kms_instance_guid  = var.existing_kms_instance_guid
+  existing_kms_instance_crn   = var.existing_kms_instance_crn
   key_ring_endpoint_type      = var.kms_endpoint_type
   key_endpoint_type           = var.kms_endpoint_type
   keys = [
@@ -55,7 +78,7 @@ module "appid" {
   region                              = var.region
   resource_tags                       = var.resource_tags
   kms_key_crn                         = var.existing_kms_key_crn != null ? var.existing_kms_key_crn : module.kms[0].keys[format("%s.%s", var.key_ring_name, var.key_name)].crn
-  existing_kms_instance_guid          = var.existing_kms_instance_guid
+  existing_kms_instance_guid          = local.kms_instance_guid
   skip_iam_authorization_policy       = var.skip_iam_authorization_policy
   resource_keys                       = var.resource_keys
   users                               = var.users
