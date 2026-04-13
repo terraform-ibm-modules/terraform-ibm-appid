@@ -2,11 +2,11 @@
 package test
 
 import (
-	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"log"
-	"math/rand"
 	"os"
 	"testing"
+
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
@@ -49,7 +49,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		Testing:      t,
 		TerraformDir: dir,
 		Prefix:       prefix,
-		Region:       validRegions[rand.Intn(len(validRegions))],
+		Region:       validRegions[common.CryptoIntn(len(validRegions))],
 		TerraformVars: map[string]interface{}{
 			"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
 			"existing_kms_instance_guid": permanentResources["hpcs_south"],
@@ -75,15 +75,15 @@ func TestRunUpgradeSecureSolution(t *testing.T) {
 		Testing:      t,
 		TerraformDir: secureSolutionsDir,
 		Prefix:       "appid-fs-upg",
-		Region:       validRegions[rand.Intn(len(validRegions))],
+		Region:       validRegions[common.CryptoIntn(len(validRegions))],
 	})
 
 	options.TerraformVars = map[string]interface{}{
-		"ibmcloud_api_key":           options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
-		"existing_kms_key_crn":       permanentResources["hpcs_south_root_key_crn"],
-		"existing_kms_instance_guid": permanentResources["hpcs_south"],
-		"appid_name":                 options.Prefix,
-		"resource_group_name":        options.Prefix + "-rg",
+		"ibmcloud_api_key":          options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
+		"existing_kms_key_crn":      permanentResources["hpcs_south_root_key_crn"],
+		"existing_kms_instance_crn": permanentResources["hpcs_south_crn"],
+		"appid_name":                options.Prefix,
+		"resource_group_name":       options.Prefix + "-rg",
 	}
 
 	output, err := options.RunTestUpgrade()
@@ -100,15 +100,15 @@ func TestRunSecureSolution(t *testing.T) {
 		Testing:      t,
 		TerraformDir: secureSolutionsDir,
 		Prefix:       "appid-sol",
-		Region:       validRegions[rand.Intn(len(validRegions))],
+		Region:       validRegions[common.CryptoIntn(len(validRegions))],
 	})
 
 	options.TerraformVars = map[string]interface{}{
-		"ibmcloud_api_key":           options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
-		"existing_kms_key_crn":       permanentResources["hpcs_south_root_key_crn"],
-		"existing_kms_instance_guid": permanentResources["hpcs_south"],
-		"appid_name":                 options.Prefix,
-		"resource_group_name":        options.Prefix + "-rg",
+		"ibmcloud_api_key":          options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
+		"existing_kms_key_crn":      permanentResources["hpcs_south_root_key_crn"],
+		"existing_kms_instance_crn": permanentResources["hpcs_south_crn"],
+		"appid_name":                options.Prefix,
+		"resource_group_name":       options.Prefix + "-rg",
 	}
 
 	output, err := options.RunTestConsistency()
@@ -123,7 +123,7 @@ func TestRunBasicExample(t *testing.T) {
 		Testing:      t,
 		TerraformDir: basicExampleDir,
 		Prefix:       "appid-bas",
-		Region:       validRegions[rand.Intn(len(validRegions))],
+		Region:       validRegions[common.CryptoIntn(len(validRegions))],
 	})
 
 	output, err := options.RunTestConsistency()

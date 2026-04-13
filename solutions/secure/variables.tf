@@ -120,15 +120,24 @@ variable "kms_region" {
   description = "The region in which KMS instance exists."
 }
 
-variable "existing_kms_instance_guid" {
-  description = "The GUID of the Hyper Protect or Key Protect instance in which the key specified in `existing_kms_key_crn` is coming from."
+variable "existing_kms_instance_crn" {
   type        = string
   default     = null
+  description = "The CRN of the existing key management service (KMS) that is used to create keys for encrypting the app config instance. If you are not using an existing KMS root key, you must specify this CRN. If you are using an existing KMS root key and auth policy is not set for app config to KMS, you must specify this CRN. This is applicable only for Enterprise plan."
+
+  validation {
+    condition = anytrue([
+      can(regex("^crn:(.*:){3}kms:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_kms_instance_crn)),
+      can(regex("^crn:(.*:){3}hs-crypto:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_kms_instance_crn)),
+      var.existing_kms_instance_crn == null,
+    ])
+    error_message = "The provided KMS (Key Protect) instance CRN in not valid."
+  }
 }
 
 variable "skip_iam_authorization_policy" {
   type        = bool
-  description = "Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Hyper Protect or Key Protect instance passed in var.existing_kms_instance_guid. If set to 'false', a value must be passed for var.existing_kms_instance_guid."
+  description = "Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Hyper Protect or Key Protect instance passed in var.existing_kms_instance_crn. If set to 'false', a value must be passed for var.existing_kms_instance_crn."
   default     = false
 }
 
