@@ -1,7 +1,11 @@
 module "kms_key_crn_parser" {
   count   = var.kms_encryption_enabled != false ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
+<<<<<<< HEAD
   version = "1.5.0"
+=======
+  version = "1.4.2"
+>>>>>>> 47605d9d8a675827a45b8c455e5c6c5afc0a32fd
   crn     = var.kms_key_crn
 }
 
