@@ -49,6 +49,7 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | Add access management tags to the AppID instance to control access. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#create-access-console). | `list(string)` | `[]` | no |
 | <a name="input_appid_name"></a> [appid\_name](#input\_appid\_name) | The name of the IBM AppID instance. | `string` | n/a | yes |
 | <a name="input_existing_kms_instance_guid"></a> [existing\_kms\_instance\_guid](#input\_existing\_kms\_instance\_guid) | The GUID of the Hyper Protect instance in which the key specified in `kms_key_crn` is coming from. | `string` | n/a | yes |
 | <a name="input_identity_confirm_access_mode"></a> [identity\_confirm\_access\_mode](#input\_identity\_confirm\_access\_mode) | Identity confirm access mode for Cloud Directory (CD). Allowed values are `FULL`, `RESTRICTIVE` and `OFF`. | `string` | `"OFF"` | no |

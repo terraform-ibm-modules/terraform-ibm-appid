@@ -15,6 +15,12 @@ variable "resource_tags" {
   default     = []
 }
 
+variable "access_tags" {
+  type        = list(string)
+  description = "Add access management tags to the AppID instance to control access. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#create-access-console)."
+  default     = []
+}
+
 variable "kms_key_crn" {
   type        = string
   description = "The root key CRN of a Hyper Protect Crypto Service (HPCS) that you want to use for disk encryption."

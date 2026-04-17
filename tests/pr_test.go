@@ -53,6 +53,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		TerraformVars: map[string]interface{}{
 			"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
 			"existing_kms_instance_guid": permanentResources["hpcs_south"],
+			"access_tags":                permanentResources["accessTags"],
 		},
 	})
 	return options
@@ -107,6 +108,7 @@ func TestRunSecureSolution(t *testing.T) {
 		"ibmcloud_api_key":          options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
 		"existing_kms_key_crn":      permanentResources["hpcs_south_root_key_crn"],
 		"existing_kms_instance_crn": permanentResources["hpcs_south_crn"],
+		"access_tags":               permanentResources["accessTags"],
 		"appid_name":                options.Prefix,
 		"resource_group_name":       options.Prefix + "-rg",
 	}
