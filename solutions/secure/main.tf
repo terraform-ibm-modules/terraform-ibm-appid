@@ -77,6 +77,7 @@ module "appid" {
   resource_group_id                   = module.resource_group.resource_group_id
   region                              = var.region
   resource_tags                       = var.resource_tags
+  access_tags                         = var.access_tags
   kms_key_crn                         = var.existing_kms_key_crn != null ? var.existing_kms_key_crn : module.kms[0].keys[format("%s.%s", var.key_ring_name, var.key_name)].crn
   existing_kms_instance_guid          = local.kms_instance_guid
   skip_iam_authorization_policy       = var.skip_iam_authorization_policy

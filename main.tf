@@ -87,6 +87,23 @@ resource "ibm_resource_key" "resource_keys" {
   role                 = each.value.role
 }
 
+##############################################################################
+# Attach Access Tags
+##############################################################################
+
+data "ibm_iam_access_tag" "access_tag" {
+  for_each = length(var.access_tags) != 0 ? toset(var.access_tags) : []
+  name     = each.value
+}
+
+resource "ibm_resource_tag" "app_id_tag" {
+  depends_on  = [data.ibm_iam_access_tag.access_tag] # Force dependency on data source validation to ensure access_tags exist and are valid before use.
+  count       = length(var.access_tags) == 0 ? 0 : 1
+  resource_id = ibm_resource_instance.appid.crn
+  tags        = var.access_tags
+  tag_type    = "access"
+}
+
 ########################################################################################################################
 # Manage authentications
 ########################################################################################################################

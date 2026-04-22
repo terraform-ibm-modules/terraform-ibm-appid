@@ -25,6 +25,7 @@ module "appid" {
   resource_group_id          = module.resource_group.resource_group_id
   region                     = var.region
   resource_tags              = var.resource_tags
+  access_tags                = var.access_tags
   kms_key_crn                = var.kms_key_crn
   existing_kms_instance_guid = var.existing_kms_instance_guid
   # for the sake of this example, setting this to false - should be set to true to enable MFA
