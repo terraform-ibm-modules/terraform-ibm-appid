@@ -4,7 +4,7 @@
 
 module "resource_group" {
   source                       = "terraform-ibm-modules/resource-group/ibm"
-  version                      = "1.6.0"
+  version                      = "1.6.1"
   resource_group_name          = var.existing_resource_group == false ? var.resource_group_name : null
   existing_resource_group_name = var.existing_resource_group == true ? var.resource_group_name : null
 }
@@ -17,14 +17,14 @@ module "resource_group" {
 module "existing_kms_crn_parser" {
   count   = var.existing_kms_instance_crn != null ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.5.0"
+  version = "1.6.0"
   crn     = var.existing_kms_instance_crn
 }
 
 module "existing_kms_key_crn_parser" {
   count   = var.existing_kms_key_crn != null ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.5.0"
+  version = "1.6.0"
   crn     = var.existing_kms_key_crn
 }
 
