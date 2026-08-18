@@ -89,16 +89,15 @@ variable "kms_encryption_enabled" {
 
 variable "kms_key_crn" {
   type        = string
-  description = "The root key CRN of a Key Management Services like Key Protect or Hyper Protect Crypto Service (HPCS) that you want to use for disk encryption. Only used if `kms_encryption_enabled` is set to true."
+  description = "The root key CRN of a Key Protect instance that you want to use for disk encryption. Only used if `kms_encryption_enabled` is set to true."
   default     = null
   nullable    = true
   validation {
     condition = anytrue([
       var.kms_key_crn == null,
       can(regex(".*kms.*", var.kms_key_crn)),
-      can(regex(".*hs-crypto.*", var.kms_key_crn)),
     ])
-    error_message = "Value must be the root key CRN from either the Key Protect or Hyper Protect Crypto Service (HPCS)."
+    error_message = "Value must be the root key CRN from Key Protect."
   }
 
   validation {
