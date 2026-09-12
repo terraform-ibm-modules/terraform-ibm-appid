@@ -20,8 +20,8 @@ module "appid" {
   region            = "us-south"
   skip_iam_authorization_policy = false
   kms_encryption_enabled        = true
-  existing_kms_instance_guid = "<hpcs-instance-guid>"
-  kms_key_crn                = "<hpcs-key-crn>"
+  existing_kms_instance_guid = "<kp-instance-guid>"
+  kms_key_crn                = "<kp-key-crn>"
 }
 ```
 
@@ -51,12 +51,12 @@ No resources.
 |------|-------------|------|---------|:--------:|
 | <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | Add access management tags to the AppID instance to control access. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#create-access-console). | `list(string)` | `[]` | no |
 | <a name="input_appid_name"></a> [appid\_name](#input\_appid\_name) | The name of the IBM AppID instance. | `string` | n/a | yes |
-| <a name="input_existing_kms_instance_guid"></a> [existing\_kms\_instance\_guid](#input\_existing\_kms\_instance\_guid) | The GUID of the Hyper Protect instance in which the key specified in `kms_key_crn` is coming from. | `string` | n/a | yes |
+| <a name="input_existing_kms_instance_guid"></a> [existing\_kms\_instance\_guid](#input\_existing\_kms\_instance\_guid) | The GUID of the Key Protect instance in which the key specified in `kms_key_crn` is coming from. | `string` | n/a | yes |
 | <a name="input_identity_confirm_access_mode"></a> [identity\_confirm\_access\_mode](#input\_identity\_confirm\_access\_mode) | Identity confirm access mode for Cloud Directory (CD). Allowed values are `FULL`, `RESTRICTIVE` and `OFF`. | `string` | `"OFF"` | no |
 | <a name="input_identity_field"></a> [identity\_field](#input\_identity\_field) | Identity field for Cloud Directory (CD). Allowed values are `email` and `userName`. | `string` | `"email"` | no |
 | <a name="input_is_idp_cloud_directory_active"></a> [is\_idp\_cloud\_directory\_active](#input\_is\_idp\_cloud\_directory\_active) | Set this to true to set IDP Cloud Directory active. | `bool` | `true` | no |
 | <a name="input_is_mfa_active"></a> [is\_mfa\_active](#input\_is\_mfa\_active) | Set this to true to set MFA in IDP Cloud Directory active. | `bool` | `true` | no |
-| <a name="input_kms_key_crn"></a> [kms\_key\_crn](#input\_kms\_key\_crn) | The root key CRN of a Hyper Protect Crypto Service (HPCS) that you want to use for disk encryption. | `string` | n/a | yes |
+| <a name="input_kms_key_crn"></a> [kms\_key\_crn](#input\_kms\_key\_crn) | The root key CRN of a Key Protect instance that you want to use for disk encryption. | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | Region to provision all the resources. | `string` | `"us-south"` | no |
 | <a name="input_reset_password_enabled"></a> [reset\_password\_enabled](#input\_reset\_password\_enabled) | Set this to true to enable password resets. | `bool` | `false` | no |
 | <a name="input_reset_password_notification_enabled"></a> [reset\_password\_notification\_enabled](#input\_reset\_password\_notification\_enabled) | Set this to true to enable password notifications. | `bool` | `false` | no |
@@ -65,7 +65,7 @@ No resources.
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Add user resource tags to the AppID instance to organize, track, and manage costs. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#tag-types). | `list(string)` | `[]` | no |
 | <a name="input_self_service_enabled"></a> [self\_service\_enabled](#input\_self\_service\_enabled) | Set this to true to allow users to change password and edit user details. | `bool` | `false` | no |
 | <a name="input_signup_enabled"></a> [signup\_enabled](#input\_signup\_enabled) | Set this to true to allow users to signup. | `bool` | `false` | no |
-| <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Hyper Protect or Key Protect instance passed in var.existing\_kms\_instance\_guid. If set to 'false', a value must be passed for var.existing\_kms\_instance\_guid. | `bool` | `false` | no |
+| <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Key Protect instance passed in var.existing\_kms\_instance\_guid. If set to 'false', a value must be passed for var.existing\_kms\_instance\_guid. | `bool` | `false` | no |
 | <a name="input_users"></a> [users](#input\_users) | List of users to add. | `list(string)` | `[]` | no |
 | <a name="input_welcome_enabled"></a> [welcome\_enabled](#input\_welcome\_enabled) | Set this to true to send welcome emails to the new users. | `bool` | `false` | no |
 
