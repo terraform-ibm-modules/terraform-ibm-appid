@@ -51,8 +51,8 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		Prefix:       prefix,
 		Region:       validRegions[common.CryptoIntn(len(validRegions))],
 		TerraformVars: map[string]interface{}{
-			"kms_key_crn":                permanentResources["hpcs_south_root_key_crn"],
-			"existing_kms_instance_guid": permanentResources["hpcs_south"],
+			"kms_key_crn":                permanentResources["kp_dedicated_us_south_root_key_crn"],
+			"existing_kms_instance_guid": permanentResources["kp_dedicated_us_south_instance_id"],
 			"access_tags":                permanentResources["accessTags"],
 		},
 	})
@@ -81,8 +81,8 @@ func TestRunUpgradeSecureSolution(t *testing.T) {
 
 	options.TerraformVars = map[string]interface{}{
 		"ibmcloud_api_key":          options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
-		"existing_kms_key_crn":      permanentResources["hpcs_south_root_key_crn"],
-		"existing_kms_instance_crn": permanentResources["hpcs_south_crn"],
+		"existing_kms_key_crn":      permanentResources["kp_dedicated_us_south_root_key_crn"],
+		"existing_kms_instance_crn": permanentResources["kp_dedicated_us_south_crn"],
 		"appid_name":                options.Prefix,
 		"resource_group_name":       options.Prefix + "-rg",
 	}
@@ -106,8 +106,8 @@ func TestRunSecureSolution(t *testing.T) {
 
 	options.TerraformVars = map[string]interface{}{
 		"ibmcloud_api_key":          options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
-		"existing_kms_key_crn":      permanentResources["hpcs_south_root_key_crn"],
-		"existing_kms_instance_crn": permanentResources["hpcs_south_crn"],
+		"existing_kms_key_crn":      permanentResources["kp_dedicated_us_south_root_key_crn"],
+		"existing_kms_instance_crn": permanentResources["kp_dedicated_us_south_crn"],
 		"access_tags":               permanentResources["accessTags"],
 		"appid_name":                options.Prefix,
 		"resource_group_name":       options.Prefix + "-rg",

@@ -36,10 +36,10 @@ variable "access_tags" {
 
 variable "kms_key_crn" {
   type        = string
-  description = "The root key CRN of a Key Management Services like Key Protect or Hyper Protect Crypto Service (HPCS) that you want to use for disk encryption."
+  description = "The root key CRN of a Key Protect instance that you want to use for disk encryption."
 }
 
 variable "existing_kms_instance_guid" {
-  description = "The GUID of the Hyper Protect or Key Protect instance in which the key specified in `kms_key_crn` is coming from."
+  description = "The GUID of the Key Protect instance in which the key specified in `kms_key_crn` is coming from."
   type        = string
 }
