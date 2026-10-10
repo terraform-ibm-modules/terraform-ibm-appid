@@ -78,6 +78,11 @@ resource "ibm_resource_instance" "appid" {
     kms_info = "{\"id\": \"${var.existing_kms_instance_guid}\"}"
     tek_id   = var.kms_key_crn
   } : null
+  # The App ID service broker does not support updating KMS parameters after instance creation
+  # (returns HTTP 422). Ignore post-creation drift on parameters to prevent failed applies.
+  lifecycle {
+    ignore_changes = [parameters]
+  }
 }
 
 resource "ibm_resource_key" "resource_keys" {

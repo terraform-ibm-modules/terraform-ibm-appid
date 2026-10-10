@@ -23,11 +23,11 @@ variable "access_tags" {
 
 variable "kms_key_crn" {
   type        = string
-  description = "The root key CRN of a Hyper Protect Crypto Service (HPCS) that you want to use for disk encryption."
+  description = "The root key CRN of a Key Protect instance that you want to use for disk encryption."
 }
 
 variable "existing_kms_instance_guid" {
-  description = "The GUID of the Hyper Protect instance in which the key specified in `kms_key_crn` is coming from."
+  description = "The GUID of the Key Protect instance in which the key specified in `kms_key_crn` is coming from."
   type        = string
 }
 
@@ -54,7 +54,7 @@ variable "users" {
 
 variable "skip_iam_authorization_policy" {
   type        = bool
-  description = "Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Hyper Protect or Key Protect instance passed in var.existing_kms_instance_guid. If set to 'false', a value must be passed for var.existing_kms_instance_guid."
+  description = "Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Key Protect instance passed in var.existing_kms_instance_guid. If set to 'false', a value must be passed for var.existing_kms_instance_guid."
   default     = false
 }
 
