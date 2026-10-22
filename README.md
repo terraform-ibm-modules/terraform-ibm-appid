@@ -124,7 +124,7 @@ statement instead the previous block.
 ### Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.49.0, < 3.0.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.6.0, <4.0.0 |
@@ -133,13 +133,13 @@ statement instead the previous block.
 ### Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_kms_key_crn_parser"></a> [kms\_key\_crn\_parser](#module\_kms\_key\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.9.0 |
 
 ### Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [ibm_appid_cloud_directory_user.user](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/appid_cloud_directory_user) | resource |
 | [ibm_appid_idp_cloud_directory.cd](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/appid_idp_cloud_directory) | resource |
 | [ibm_appid_mfa.mf](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/appid_mfa) | resource |
@@ -154,7 +154,7 @@ statement instead the previous block.
 ### Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | Add access management tags to the AppID instance to control access. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#create-access-console). | `list(string)` | `[]` | no |
 | <a name="input_appid_name"></a> [appid\_name](#input\_appid\_name) | Name of the AppID resource. | `string` | n/a | yes |
 | <a name="input_existing_kms_instance_guid"></a> [existing\_kms\_instance\_guid](#input\_existing\_kms\_instance\_guid) | The GUID of the Hyper Protect or Key Protect instance in which the key specified in `kms_key_crn` is coming from. Only required if `skip_iam_authorization_policy` is 'false'. | `string` | `null` | no |
@@ -180,7 +180,7 @@ statement instead the previous block.
 ### Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_appid_crn"></a> [appid\_crn](#output\_appid\_crn) | AppID instance CRN. |
 | <a name="output_appid_name"></a> [appid\_name](#output\_appid\_name) | AppID instance name. |
 | <a name="output_dashboard_url"></a> [dashboard\_url](#output\_dashboard\_url) | AppID dashboard url. |
