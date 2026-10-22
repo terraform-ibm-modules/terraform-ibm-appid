@@ -1,3 +1,13 @@
+#######################################################################################################################
+# HPCS Deprecation Warning
+#######################################################################################################################
+check "warn_hs_crypto_key" {
+  assert {
+    condition     = !(var.kms_key_crn != null && can(regex(".*hs-crypto.*", var.kms_key_crn)))
+    error_message = "WARNING (Non-fatal, execution will continue): An IBM Cloud Hyper Protect Crypto Services (hs-crypto) instance or key CRN was provided. Note that IBM Cloud Hyper Protect Crypto Services is deprecated. Consider migrating to a supported alternative."
+  }
+}
+
 module "kms_key_crn_parser" {
   count   = var.kms_encryption_enabled != false ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"

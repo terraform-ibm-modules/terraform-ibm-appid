@@ -129,27 +129,37 @@ variable "kms_region" {
 variable "existing_kms_instance_crn" {
   type        = string
   default     = null
-  description = "The CRN of the existing Key Protect instance that is used to create keys for encrypting the AppID instance. If you are not using an existing KMS root key, you must specify this CRN. If you are using an existing KMS root key and auth policy is not set for AppID to KMS, you must specify this CRN."
+  description = "The CRN of the existing Key Protect or Hyper Protect Crypto Services instance that is used to create keys for encrypting the AppID instance. If you are not using an existing KMS root key, you must specify this CRN. If you are using an existing KMS root key and auth policy is not set for AppID to KMS, you must specify this CRN. Note: Hyper Protect Crypto Services is deprecated. If an hs-crypto CRN is provided, a warning is emitted but the module continues."
 
   validation {
     condition = anytrue([
       can(regex("^crn:(.*:){3}kms:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_kms_instance_crn)),
+      can(regex("^crn:(.*:){3}hs-crypto:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_kms_instance_crn)),
       var.existing_kms_instance_crn == null,
     ])
-    error_message = "The provided Key Protect instance CRN is not valid."
+    error_message = "The provided KMS (Key Protect or Hyper Protect Crypto Services) instance CRN is not valid."
   }
 }
 
 variable "skip_iam_authorization_policy" {
   type        = bool
-  description = "Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Key Protect instance passed in var.existing_kms_instance_crn. If set to 'false', a value must be passed for var.existing_kms_instance_crn."
+  description = "Set to true to skip the creation of an IAM authorization policy that permits AppID instance in the given resource group to read the encryption key from the Hyper Protect or Key Protect instance passed in var.existing_kms_instance_crn. If set to 'false', a value must be passed for var.existing_kms_instance_crn."
   default     = false
 }
 
 variable "existing_kms_key_crn" {
   type        = string
-  description = "The root key CRN of an existing Key Protect instance that you want to use for disk encryption."
+  description = "The root key CRN of an existing Key Management Services like Key Protect or Hyper Protect Crypto Service (HPCS) that you want to use for disk encryption. Note: Hyper Protect Crypto Services is deprecated. If an hs-crypto CRN is provided, a warning is emitted but the module continues."
   default     = null
+
+  validation {
+    condition = anytrue([
+      var.existing_kms_key_crn == null,
+      can(regex(".*kms.*", var.existing_kms_key_crn)),
+      can(regex(".*hs-crypto.*", var.existing_kms_key_crn)),
+    ])
+    error_message = "Value must be the root key CRN from either the Key Protect or Hyper Protect Crypto Service (HPCS)."
+  }
 }
 
 variable "kms_endpoint_type" {
