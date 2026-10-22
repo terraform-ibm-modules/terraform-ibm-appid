@@ -21,4 +21,4 @@ The following resources are provisioned by this DA:
 
 Before you run the DA, make sure that you set up the following prerequisites:
 
-- A Hyper Protect Crypto Services (HPCS) instance and root key that you want to secure data with the AppID.
+- A Key Protect instance and root key that you want to secure data with the AppID.
