@@ -104,10 +104,12 @@ func TestRunSecureSolution(t *testing.T) {
 		Region:       validRegions[common.CryptoIntn(len(validRegions))],
 	})
 
+	// Uses HPCS (eu-fr2) to verify it is still supported, with only a deprecation warning
 	options.TerraformVars = map[string]interface{}{
 		"ibmcloud_api_key":          options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"],
-		"existing_kms_key_crn":      permanentResources["kp_dedicated_us_south_root_key_crn"],
-		"existing_kms_instance_crn": permanentResources["kp_dedicated_us_south_crn"],
+		"existing_kms_key_crn":      permanentResources["hpcs_eufr2_root_key_crn"],
+		"existing_kms_instance_crn": permanentResources["hpcs_eufr2_crn"],
+		"kms_region":                "eu-fr2",
 		"access_tags":               permanentResources["accessTags"],
 		"appid_name":                options.Prefix,
 		"resource_group_name":       options.Prefix + "-rg",
